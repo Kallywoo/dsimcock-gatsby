@@ -1,44 +1,65 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
+import SEO from '../components/SEO';
 
 export const query = graphql`
     query {
-        contentfulNavigation(contentful_id: {eq: "KxYb1aL3RLuOVyeKJTMnk"}) {
-            pages {
-              ... on ContentfulLayout {
-                id
-				name
-                slug
-              }
-              ... on ContentfulAreaOfWork {
-                id
-				name
-                slug
-              }
-            }
+        allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+          pages: nodes {
+            id
+            name
+            slug
+            navOrder
+          }
         }
-    }
-`;
+        allContentfulAreaOfWork(filter: {node_locale: {eq: "en-US"}}) {
+          work: nodes {
+            type: __typename
+            id
+            name
+            slug
+            order
+          }
+        }
+      }
+    `;
 
-export default function SitemapPage({data}) {
-    console.log(data);
+export default function SitemapPage({ data }) {
+
+    const { pages } = data.allContentfulLayout;
+    const { work } = data.allContentfulAreaOfWork;
+
+    pages.sort((a, b) => a.navOrder - b.navOrder);
+    work.sort((a, b) => a.order - b.order);
+
+    const insertIndex = pages.findIndex(page => page.slug === "work") + 1;
+
+    const insert = (arr, index, newItems) => [
+        ...arr.slice(0, index),
+        ...newItems,
+        ...arr.slice(index)
+    ];
+      
+    const allPages = insert(pages, insertIndex, work);
 
     return (
-        <main>
-            <MainContent>
-                <nav>
-                    <List>
-                        <ListItem><StyledLink to="/index">Home</StyledLink></ListItem>
-                        <ListItem><StyledLink to="/about">About Us</StyledLink></ListItem>
-                        <ListItem><StyledLink to="/work">Our Work</StyledLink></ListItem>
-                        <ListItem><StyledLink to="/work/residential">Residential Work</StyledLink></ListItem>
-                        <ListItem><StyledLink to="/work/industrial">Industrial Work</StyledLink></ListItem>
-                        <ListItem><StyledLink to="/contact">Contact Us</StyledLink></ListItem>
-                    </List>
-                </nav>
-            </MainContent>
-        </main>
+        <>
+            <SEO title="Sitemap"/>
+            <main>
+                <MainContent>
+                    <nav>
+                        <List>
+                            {allPages.map(page => 
+                                <ListItem key={`${page.id}`}>
+                                    <StyledLink to={`/${page.slug ? page.type ? `work/${page.slug}` : page.slug : ""}`}>{page.name}</StyledLink>
+                                </ListItem>
+                            )}
+                        </List>
+                    </nav>
+                </MainContent>
+            </main>
+        </>
     )
 };
 

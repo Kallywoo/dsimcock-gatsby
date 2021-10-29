@@ -18,7 +18,7 @@ export const Carousel = ({type, duration, transition}) => {
                   altTag
                   title
                   image {
-                    gatsbyImageData(placeholder: BLURRED)
+                    # gatsbyImageData(placeholder: BLURRED)
                     fluid {
                         src
                     }

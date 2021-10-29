@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { graphql } from 'gatsby';
 
 import { ContactForm } from '../components/ContactForm';
+import SEO from '../components/SEO';
 
 export const query = graphql`
   query {
@@ -29,24 +30,27 @@ export default function ContactPage({ data: {contentfulLayout: {mainContent}} })
     const { paragraph } = mainContent[1].paragraph;
 
     return (
-        <main>
-            <MainContent>
-                <FlexBox>
-                    <ContactInfo>
-                        <List>
-                            <ListItem>Tel: <Details href={`tel:${telephone.replace(/\s+/g, '')}`}>{telephone}</Details></ListItem>
-                            <ListItem>Mobile One: <Details href={`tel:${mobile1.replace(/\s+/g, '')}`}>{mobile1}</Details></ListItem>
-                            <ListItem>Mobile Two: <Details href={`tel:${mobile2.replace(/\s+/g, '')}`}>{mobile2}</Details></ListItem>
-                            <ListItem>Email: <Details href={`mailto:${email}`}>{email}</Details></ListItem>
-                        </List>
-                        <Text>{paragraph}</Text>
-                    </ContactInfo>
+        <>
+            <SEO title="Contact Us" description="Contact details and Email form"/>
+            <main>
+                <MainContent>
+                    <FlexBox>
+                        <ContactInfo>
+                            <List>
+                                <ListItem>Tel: <Details href={`tel:${telephone.replace(/\s+/g, '')}`}>{telephone}</Details></ListItem>
+                                <ListItem>Mobile One: <Details href={`tel:${mobile1.replace(/\s+/g, '')}`}>{mobile1}</Details></ListItem>
+                                <ListItem>Mobile Two: <Details href={`tel:${mobile2.replace(/\s+/g, '')}`}>{mobile2}</Details></ListItem>
+                                <ListItem>Email: <Details href={`mailto:${email}`}>{email}</Details></ListItem>
+                            </List>
+                            <Text>{paragraph}</Text>
+                        </ContactInfo>
 
-                    <ContactForm/>
+                        <ContactForm/>
 
-                </FlexBox>
-            </MainContent>
-        </main>
+                    </FlexBox>
+                </MainContent>
+            </main>
+        </>
     )
 };
 

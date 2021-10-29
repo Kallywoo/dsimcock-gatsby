@@ -1,6 +1,7 @@
 import { graphql, Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
+import SEO from '../components/SEO';
 
 export const query = graphql`
   query {
@@ -17,6 +18,7 @@ export const query = graphql`
           id
           name
           slug
+          order
         }
       }
     }
@@ -27,7 +29,11 @@ export default function WorkPage({data}) {
     const { paragraph } = data.contentfulLayout.mainContent[0].paragraph;
     const { areas } = data.contentfulLayout;
 
+    areas.sort((a, b) => a.order - b.order);
+
     return (
+      <>
+        <SEO title="Our Work" description="Our work"/>
         <main>
             <MainContent>
                 <WorkExamples>
@@ -38,6 +44,7 @@ export default function WorkPage({data}) {
                 </WorkExamples>
             </MainContent>
         </main>
+      </>
     )
 };
 

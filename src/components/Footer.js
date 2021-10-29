@@ -5,38 +5,39 @@ import styled from 'styled-components';
 export const Footer = () => {
 
     const data = useStaticQuery(graphql`
-        query {
-            contentfulNavigation(contentful_id: {eq: "KxYb1aL3RLuOVyeKJTMnk"}) {
-                pages {
-                  ... on ContentfulLayout {
-                    id
-                    name
-                    slug
-                  }
-                  ... on ContentfulAreaOfWork {
-                    type: __typename
-                    id
-                    name
-                    slug
-                  }
-                }
-            }
+      query {
+        pages: allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+          nodes {
+            id
+            name
+            slug
+            navOrder
+          }
         }
+        work: allContentfulAreaOfWork(filter: {node_locale: {eq: "en-US"}}) {
+          nodes {
+            id
+            name
+            slug
+            order
+          }
+        }
+      }
     `);
 
-    const { pages } = data.contentfulNavigation;
+    const { pages, work } = data;
+
+    pages.nodes.sort((a, b) => a.navOrder - b.navOrder);
+    work.nodes.sort((a, b) => a.order - b.order);
 
     return (
         <StyledFooter>
             <Navigation>
                 <List>
-                {pages.map(page => (
-                    <ListItem key={`${page.id}`}>
-                        <StyledLink to={`/${page.slug ? page.type ? `work/${page.slug}` : `${page.slug}` : ''}`}>{page.name}</StyledLink>
-                    </ListItem>
-                ))}
-                    {/* <ListItem><StyledLink to="/about#testimonials">Testimonials</StyledLink></ListItem> */}
-                    {/* <ListItem><StyledLink to="/sitemap">Sitemap</StyledLink></ListItem> */}
+                    {pages.nodes.map(page => <ListItem key={`${page.id}`}><StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink></ListItem>)}
+                    <ListItem><StyledLink to="/about#testimonials">Testimonials</StyledLink></ListItem>
+                    {work.nodes.map(page => <ListItem key={`${page.id}`}><StyledLink to={`/work/${page.slug}`}>{page.name} Examples</StyledLink></ListItem>)}
+                    <ListItem><StyledLink to="/sitemap">Sitemap</StyledLink></ListItem>
                 </List>
             </Navigation>
         </StyledFooter>

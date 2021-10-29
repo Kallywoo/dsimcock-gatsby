@@ -19,6 +19,7 @@ async function createProjectListPages({ graphql, actions }) {
             path: `work/${area.slug}`,
             component: listTemplate,
             context: {
+              title: area.name,
               slug: area.slug,
             }
         });

@@ -2,30 +2,34 @@ import React, { useState } from 'react';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import styled, { keyframes } from 'styled-components';
 
+// maybe somehow merge this with Navigation.js?
+
 export const MobileNavigation = () => {
 
     const data = useStaticQuery(graphql`
-        query {
-          contentfulNavigation(contentful_id: {eq: "7tATi3kNNmRMPFdKuWTI6"}) {
-            pages {
-              ... on ContentfulLayout {
-                id
-                name
-                slug
-              }
-            }
+      query {
+        allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+          pages: nodes {
+            id
+            name
+            slug
+            navOrder
           }
-          hamburger: contentfulImageWithMetadata(contentful_id: {eq: "1WalTBYZ3qDtCFxn6NzQ7z"}) {
-            image {
-              fluid {
-                src
-              }
+        }
+        hamburger: contentfulImageWithMetadata(contentful_id: {eq: "1WalTBYZ3qDtCFxn6NzQ7z"}) {
+          image {
+            fluid {
+              src
             }
           }
         }
+      }
     `);
 
-    const { pages } = data.contentfulNavigation;
+    const { pages } = data.allContentfulLayout;
+
+    pages.sort((a, b) => a.navOrder - b.navOrder);
+
     const { src: hamburger } = data.hamburger.image.fluid;
 
     const [open, setOpen] = useState(false);

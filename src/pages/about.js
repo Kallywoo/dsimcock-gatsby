@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { BLOCKS } from '@contentful/rich-text-types';
 import { renderRichText } from 'gatsby-source-contentful/rich-text';
+import SEO from '../components/SEO';
 
 export const query = graphql`
   query {
@@ -48,27 +49,30 @@ export default function AboutPage({data}) {
       };
 
     return (
-        <main>
-            <MainContent>
-                <FlexBox>
-                    <AboutText>
-                        {richParagraph && renderRichText(richParagraph, options)}
-                    </AboutText>
-                    <ImageContainer>
-                        <Image image={aboutPic} alt=""/>
-                    </ImageContainer>
-                </FlexBox>
-            </MainContent>
-            <SecondaryContent id="testimonials">
-                {testimonials.map(testimonial => 
-                <Quote key={testimonial.id}>
-                    <Blockquote>
-                        <TextQuote>{testimonial.quote.quote}</TextQuote>
-                        <Cite>{testimonial.author}</Cite>
-                    </Blockquote>
-                </Quote>)}
-            </SecondaryContent>
-        </main>
+        <>
+            <SEO title="About Us" description="About us and customer testimonials"/>
+            <main>
+                <MainContent>
+                    <FlexBox>
+                        <AboutText>
+                            {richParagraph && renderRichText(richParagraph, options)}
+                        </AboutText>
+                        <ImageContainer>
+                            <Image image={aboutPic} alt=""/>
+                        </ImageContainer>
+                    </FlexBox>
+                </MainContent>
+                <SecondaryContent id="testimonials">
+                    {testimonials.map(testimonial => 
+                    <Quote key={testimonial.id}>
+                        <Blockquote>
+                            <TextQuote>{testimonial.quote.quote}</TextQuote>
+                            <Cite>{testimonial.author}</Cite>
+                        </Blockquote>
+                    </Quote>)}
+                </SecondaryContent>
+            </main>
+        </>
     );
 };
 

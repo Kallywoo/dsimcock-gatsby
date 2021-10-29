@@ -6,6 +6,7 @@ import { renderRichText } from 'gatsby-source-contentful/rich-text';
 // import { GatsbyImage } from 'gatsby-plugin-image';
 
 import { Carousel } from '../components/Carousel';
+import SEO from '../components/SEO';
 
 export const query = graphql`
   query {
@@ -62,6 +63,8 @@ export default function HomePage({data}) {
   };
 
   return (
+    <>
+      <SEO title="Home"/>
       <main>
           <MainContent>
               <FlexBox>
@@ -98,6 +101,7 @@ export default function HomePage({data}) {
               </Areas>
           </SecondaryContent>
       </main>
+    </>
 )};
 
 const MainContent = styled.div`

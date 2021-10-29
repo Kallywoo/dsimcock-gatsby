@@ -2,6 +2,7 @@ import { graphql } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
 import { Accordion } from '../components/Accordion';
+import SEO from '../components/SEO';
 
 export const query = graphql`
   query($slug: String!) {
@@ -23,8 +24,10 @@ export const query = graphql`
   }
 `;
 
-export default function ProjectsPage({ data: { projectList: { projects } }}) {
+export default function ProjectsPage({ data: { projectList: { projects } }, pageContext }) {
     return (
+      <>
+        <SEO title={pageContext.title} description={`${pageContext.title} work examples`}/>
         <main>
             <MainContent>
                 <List>
@@ -36,6 +39,7 @@ export default function ProjectsPage({ data: { projectList: { projects } }}) {
                 </List>
             </MainContent>
         </main>
+      </>
     );
 }
 

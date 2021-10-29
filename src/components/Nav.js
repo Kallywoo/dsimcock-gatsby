@@ -6,19 +6,20 @@ export const Navigation = () => {
 
     const data = useStaticQuery(graphql`
       query {
-        contentfulNavigation(contentful_id: {eq: "7tATi3kNNmRMPFdKuWTI6"}) {
-          pages {
-            ... on ContentfulLayout {
-              id
-              name
-              slug
-            }
+        allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+          pages: nodes {
+            id
+            name
+            slug
+            navOrder
           }
         }
       }
     `);
 
-    const { pages } = data.contentfulNavigation;
+    const { pages } = data.allContentfulLayout;
+
+    pages.sort((a, b) => a.navOrder - b.navOrder);
 
     return (
         <StyledNavigation>
