@@ -1,184 +1,214 @@
-import * as React from "react"
+import React from 'react';
+import styled from 'styled-components';
+import { BLOCKS } from '@contentful/rich-text-types';
+import { graphql } from 'gatsby';
+import { renderRichText } from 'gatsby-source-contentful/rich-text';
+// import { GatsbyImage } from 'gatsby-plugin-image';
 
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: 96,
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-const headingAccentStyles = {
-  color: "#663399",
-}
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-const listStyles = {
-  marginBottom: 96,
-  paddingLeft: 0,
-}
-const listItemStyles = {
-  fontWeight: 300,
-  fontSize: 24,
-  maxWidth: 560,
-  marginBottom: 30,
-}
+import { Carousel } from '../components/Carousel';
+import SEO from '../components/SEO';
 
-const linkStyle = {
-  color: "#8954A8",
-  fontWeight: "bold",
-  fontSize: 16,
-  verticalAlign: "5%",
-}
+export const query = graphql`
+  query {
+    home: contentfulLayout(contentful_id: {eq: "1mbJR12XDGubPzpJKUxRHZ"}) {
+      mainContent {
+        ... on ContentfulParagraphWithTitle {
+          title
+          richParagraph {
+            raw
+          }
+        }
+        ... on ContentfulSetOfThree {
+          items {
+            ... on ContentfulParagraphWithTitle {
+              title
+              paragraph {
+                id
+                text: paragraph
+              }
+            }
+            ... on ContentfulImageWithMetadata {
+              image {
+                gatsbyImageData(placeholder: BLURRED)
+                fluid {
+                  src
+                }
+              }
+            }
+          }
+        }
+      }
+      secondaryContent {
+        ... on ContentfulParagraphWithTitle {
+          title
+          paragraph {
+            text: paragraph
+          }
+        }
+      }
+    }
+  }
+`;
 
-const docLinkStyle = {
-  ...linkStyle,
-  listStyleType: "none",
-  marginBottom: 24,
-}
+export default function HomePage({data}) {
 
-const descriptionStyle = {
-  color: "#232129",
-  fontSize: 14,
-  marginTop: 10,
-  marginBottom: 0,
-  lineHeight: 1.25,
-}
+  const { mainContent, secondaryContent } = data.home;
+  const { title, richParagraph } = mainContent[1];
+  const { items } = mainContent[2];
 
-const docLink = {
-  text: "Documentation",
-  url: "https://www.gatsbyjs.com/docs/",
-  color: "#8954A8",
-}
+  const options = {
+    renderNode: {
+      [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>
+    }
+  };
 
-const badgeStyle = {
-  color: "#fff",
-  backgroundColor: "#088413",
-  border: "1px solid #088413",
-  fontSize: 11,
-  fontWeight: "bold",
-  letterSpacing: 1,
-  borderRadius: 4,
-  padding: "4px 6px",
-  display: "inline-block",
-  position: "relative",
-  top: -2,
-  marginLeft: 10,
-  lineHeight: 1,
-}
-
-// data
-const links = [
-  {
-    text: "Tutorial",
-    url: "https://www.gatsbyjs.com/docs/tutorial/",
-    description:
-      "A great place to get started if you're new to web development. Designed to guide you through setting up your first Gatsby site.",
-    color: "#E95800",
-  },
-  {
-    text: "How to Guides",
-    url: "https://www.gatsbyjs.com/docs/how-to/",
-    description:
-      "Practical step-by-step guides to help you achieve a specific goal. Most useful when you're trying to get something done.",
-    color: "#1099A8",
-  },
-  {
-    text: "Reference Guides",
-    url: "https://www.gatsbyjs.com/docs/reference/",
-    description:
-      "Nitty-gritty technical descriptions of how Gatsby works. Most useful when you need detailed information about Gatsby's APIs.",
-    color: "#BC027F",
-  },
-  {
-    text: "Conceptual Guides",
-    url: "https://www.gatsbyjs.com/docs/conceptual/",
-    description:
-      "Big-picture explanations of higher-level Gatsby concepts. Most useful for building understanding of a particular topic.",
-    color: "#0D96F2",
-  },
-  {
-    text: "Plugin Library",
-    url: "https://www.gatsbyjs.com/plugins",
-    description:
-      "Add functionality and customize your Gatsby site or app with thousands of plugins built by our amazing developer community.",
-    color: "#8EB814",
-  },
-  {
-    text: "Build and Host",
-    url: "https://www.gatsbyjs.com/cloud",
-    badge: true,
-    description:
-      "Now you’re ready to show the world! Give your Gatsby site superpowers: Build and host on Gatsby Cloud. Get started for free!",
-    color: "#663399",
-  },
-]
-
-// markup
-const IndexPage = () => {
   return (
-    <main style={pageStyles}>
-      <title>Home Page</title>
-      <h1 style={headingStyles}>
-        Congratulations
-        <br />
-        <span style={headingAccentStyles}>— you just made a Gatsby site! </span>
-        <span role="img" aria-label="Party popper emojis">
-          🎉🎉🎉
-        </span>
-      </h1>
-      <p style={paragraphStyles}>
-        Edit <code style={codeStyles}>src/pages/index.js</code> to see this page
-        update in real-time.{" "}
-        <span role="img" aria-label="Sunglasses smiley emoji">
-          😎
-        </span>
-      </p>
-      <ul style={listStyles}>
-        <li style={docLinkStyle}>
-          <a
-            style={linkStyle}
-            href={`${docLink.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-          >
-            {docLink.text}
-          </a>
-        </li>
-        {links.map(link => (
-          <li key={link.url} style={{ ...listItemStyles, color: link.color }}>
-            <span>
-              <a
-                style={linkStyle}
-                href={`${link.url}?utm_source=starter&utm_medium=start-page&utm_campaign=minimal-starter`}
-              >
-                {link.text}
-              </a>
-              {link.badge && (
-                <span style={badgeStyle} aria-label="New Badge">
-                  NEW!
-                </span>
-              )}
-              <p style={descriptionStyle}>{link.description}</p>
-            </span>
-          </li>
-        ))}
-      </ul>
-      <img
-        alt="Gatsby G Logo"
-        src="data:image/svg+xml,%3Csvg width='24' height='24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2a10 10 0 110 20 10 10 0 010-20zm0 2c-3.73 0-6.86 2.55-7.75 6L14 19.75c3.45-.89 6-4.02 6-7.75h-5.25v1.5h3.45a6.37 6.37 0 01-3.89 4.44L6.06 9.69C7 7.31 9.3 5.63 12 5.63c2.13 0 4 1.04 5.18 2.65l1.23-1.06A7.959 7.959 0 0012 4zm-8 8a8 8 0 008 8c.04 0 .09 0-8-8z' fill='%23639'/%3E%3C/svg%3E"
-      />
-    </main>
-  )
-}
+    <>
+      <SEO title="Home"/>
+      <main>
+          <MainContent>
+              <FlexBox>
+                  <Carousel type="img" duration="5000" transition="500"/>
+                  <MainText>
+                      <Welcome>{title}</Welcome>
+                      {richParagraph && renderRichText(richParagraph, options)}
+                  </MainText>
+              </FlexBox>
+              <FlexBox>
+                {/* do these by map instead?: */}
+                  <SecondaryText>
+                      <TertiaryHeader>{items[0].title}</TertiaryHeader>
+                      <p>{items[0].paragraph.text}</p>
+                  </SecondaryText>
+                  <SecondaryText>
+                      <TertiaryHeader>{items[1].title}</TertiaryHeader>
+                      <p>{items[1].paragraph.text}</p>
+                  </SecondaryText>
+                  <SecondaryText collapse>
+                    {/* ignores padding etc w/ GatsbyImage, look into how to style it!: */}
+                      <SecondaryImage src={items[2].image.fluid.src} alt=""/>
+                  </SecondaryText>
+              </FlexBox>
+          </MainContent>
 
-export default IndexPage
+          <SecondaryContent>
+              <Carousel type="text" duration="6000" transition="500"/>
+              <Areas>
+                  <TertiaryHeader>{secondaryContent[1].title}</TertiaryHeader>
+                  <p>{secondaryContent[1].paragraph.text}</p>
+                  <TertiaryHeader>{secondaryContent[2].title}</TertiaryHeader>
+                  <p>{secondaryContent[2].paragraph.text}</p>
+              </Areas>
+          </SecondaryContent>
+      </main>
+    </>
+)};
+
+const MainContent = styled.div`
+    background-color: #ECEBFF;
+    margin: 1.3em auto;
+    padding: 0.975em;
+    width: 70%;
+    max-width: 940px;
+    @media only screen and (max-width: 480px) {
+        width: auto;
+    }
+`;
+
+const MainText = styled.div`
+    width: 34%;
+    @media only screen and (max-width: 1000px) {
+        width: 100%;
+        text-align: center;
+    }
+    @media only screen and (max-width: 480px) {
+        font-size: 1.25em;
+        margin-top: 1em;
+    }
+`;
+
+const Welcome = styled.h2`
+    letter-spacing: 3px;
+    margin-top: 0;
+    color: #303080;
+    @media only screen and (max-width: 1000px) {
+        margin-top: 0.5em;
+    }
+    @media only screen and (max-width: 480px) {
+        margin-top: 0;
+    }
+`;
+
+const Text = styled.p`
+    line-height: 1.4em;
+    @media only screen and (max-width: 1200px) {
+        line-height: normal;
+    }
+    @media only screen and (max-width: 480px) {
+        font-size: 0.75em;
+    }
+`;
+
+const TertiaryHeader = styled.h3`
+    letter-spacing: 0.5px;
+`;
+
+const SecondaryContent = styled(MainContent)`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    @media only screen and (max-width: 1000px) {
+        justify-content: center;
+        flex-flow: nowrap;
+    }
+    @media only screen and (max-width: 480px) {
+        display: none;
+    }
+`;
+
+const SecondaryText = styled.div`
+    flex: 1;
+    margin-top: 1.3em;
+    width: 30%;
+    border-top: 2px solid #303080;
+    text-align: center;
+    overflow: hidden;
+    height: 12.5em;
+    &:nth-of-type(2) {
+        margin-left: 1.3em;
+        margin-right: 1.3em;
+    }
+    @media only screen and (max-width: 1200px) {
+        display: ${props => props.collapse ? "none" : "block"};
+        height: auto;
+        &:nth-of-type(2) {
+            margin-right: 0;
+        }
+    }
+    @media only screen and (max-width: 480px) {
+        display: none;
+    }
+`;
+
+const SecondaryImage = styled.img`
+    width: 100%;
+    margin: auto;
+    align-self: center;
+    padding-top: 0.85em;
+`;
+
+const FlexBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    @media only screen and (max-width: 1000px) {
+        flex-flow: wrap;
+        justify-content: center;
+    }
+`;
+
+const Areas = styled.div`
+    @media only screen and (max-width: 1000px) {
+        text-align: center;
+        max-width: 50%;
+    }
+`;
