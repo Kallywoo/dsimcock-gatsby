@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import loadingIcon from '../images/loading.gif';
+
 export const ContactForm = () => {
 
     // https://dev.to/deboragaleano/how-to-handle-multiple-inputs-in-react-55el
+
+    const [error, setError] = useState();
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState('');
 
     const initialValues = {
         name: "",
         email: "",
         message: "",
+        boop: ""
     };
 
     const [values, setValues] = useState(initialValues);
@@ -22,10 +29,37 @@ export const ContactForm = () => {
         });
     };
 
-    const handleSubmit = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setError(null);
 
-        // whatever goes here for dealing w/ submitted things
+        const body = {
+            ...values,
+            recipient: `${process.env.SES_RECIPIENT}`
+        };
+
+        console.log(body);
+
+        const res = await fetch(`${process.env.API_ENDPOINT}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+
+        const text = JSON.parse(await res.text());
+
+        if(res.status >= 400 && res.status < 600) {
+            setLoading(false);
+            setError(text.message);
+        } else {
+            // it worked!
+            setLoading(false);
+            setMessage('Email successfully sent!');
+            handleReset();
+        };
     };
 
     const handleReset = () => {
@@ -36,38 +70,51 @@ export const ContactForm = () => {
         <FormContainer>
             <MainText>Email Us!</MainText>
             <form onSubmit={handleSubmit}>
-                <Fields>
-                    <Label htmlFor="name">Your Name:
+                <Fields disabled={loading}>
+                    <Label>Your Name:
                         <Input 
                             name="name" 
                             type="text" 
-                            id="name" 
                             value={values.name} 
                             onChange={handleInputChange}
+                            required
                         />
                     </Label>
-                    <Label htmlFor="email">E-Mail Address:
+                    <Label>E-Mail Address:
                         <Input 
                             name="email" 
                             type="email" 
-                            id="email" 
                             value={values.email} 
                             onChange={handleInputChange}
+                            required
                         />
                     </Label>
-                    <Label htmlFor="message">Message:
+                    <Label>Message:
                         <TextArea 
                             name="message" 
                             type="text" 
-                            id="message" 
                             value={values.message} 
                             onChange={handleInputChange}
+                            required
                         ></TextArea>
+                        <Input 
+                            name="boop"
+                            type="boop"
+                            value={values.boop}
+                            onChange={handleInputChange}
+                            className="boop"
+                    />
                     </Label>
                     <ButtonContainer>
-                        <Button type="reset" onClick={handleReset} switch>Reset</Button>
-                        <Button type="submit">Submit</Button>
+                        <Button type="reset" onClick={handleReset} disabled={loading} switch>Reset</Button>
+                        <Button type="submit" disabled={loading}>
+                            {loading ? <img src={loadingIcon} alt="loading"/> : 'Submit'}
+                        </Button>
                     </ButtonContainer>
+                    <div>
+                        {error ? <p>Error: {error}</p> : ''}
+                        {message ? <p>{message}</p> : ''}
+                    </div>
                 </Fields>
             </form>
         </FormContainer>
@@ -77,7 +124,7 @@ export const ContactForm = () => {
 const FormContainer = styled.div`
     width: 60%;
     background-color: #c9d0de;
-    color: #445668;
+    color: #313e4b; //#445668; changed to higher contrast (a11y)
     text-align: center;
     margin: 0 auto;
     @media only screen and (max-width: 1000px) {
@@ -133,17 +180,24 @@ const Input = styled.input`
     padding: 0.2em 0;
     border: none;
     margin-left: 0.65em;
+
+    &.boop {
+        display: none;
+    };
+
     @media only screen and (max-width: 1000px) {
         display: block;
         margin: 0.5em auto;
         width: 85%;
         font-family: "Calibri";
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         width: 95%;
         padding: 0.3em 0.1em;
         font-size: 1em;
-    }
+    };
+
 `;
 
 const TextArea = styled.textarea`
@@ -183,18 +237,32 @@ const Button = styled.button`
     padding: 0.5em 4em;
     border-radius: 8px;
     cursor: pointer;
+    vertical-align: middle;
+
     &:active {
         background-color: #adadad;
+    };
+
+    &:disabled {
+        ${props => props.type === 'submit' ? 'padding: 0.5em 4em' : ''};
+    };
+
+    img {
+        display: block;
+        opacity: 40%;
     }
+
     @media only screen and (max-width: 1000px) {
         width: 95%;
         margin: 1em auto;
         order: ${props => props.switch ? "1" : "0"};
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         font-size: 2em;
-    }
+    };
+
     @media only screen and (max-width: 410px) {
         padding: 0.5em 0em;
-    }
+    };
 `;
