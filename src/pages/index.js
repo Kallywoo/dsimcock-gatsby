@@ -70,7 +70,7 @@ export default function HomePage({data}) {
               <FlexBox>
                   <Carousel type="img" duration="5000" transition="500"/>
                   <MainText>
-                      <Welcome>{title}</Welcome>
+                      <Welcome>{title}</Welcome> {/* find a way to split this so "welcome to" is on a seperate line? */}
                       {richParagraph && renderRichText(richParagraph, options)}
                   </MainText>
               </FlexBox>
@@ -130,6 +130,7 @@ const MainText = styled.div`
 const Welcome = styled.h2`
     letter-spacing: 3px;
     margin-top: 0;
+    margin-right: 5px;
     color: #303080;
     @media only screen and (max-width: 1000px) {
         margin-top: 0.5em;
