@@ -14,17 +14,8 @@ export default function SEO({ children, location, description, title }) {
                     description
                 }
             }
-            contentfulHeader {
-                logo {
-                    fluid {
-                        src
-                    }
-                }
-            }
         }
     `);
-
-    const { logo } = data.contentfulHeader;
 
     return (
         <Helmet titleTemplate={`%s - ${site.siteMetadata.title}`} >
