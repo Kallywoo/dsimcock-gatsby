@@ -66,7 +66,7 @@ export const Carousel = ({type, duration, transition}) => {
 
             // variable to stop/kickstart timeouts again after mouseover - mouseleave
             if(!isHovering) {
-                console.log("not hovering");
+                // console.log("not hovering");
 
                 // while in faded-in (visible) state, wait for given duration
                 timeout = setTimeout(() => { // captures current timer id in a global container for pauseSlides & cleanup
@@ -92,7 +92,7 @@ export const Carousel = ({type, duration, transition}) => {
 
             } else {
                 clearTimeout(timeout);
-                console.log("hovering");
+                // console.log("hovering");
             };
         };
 
