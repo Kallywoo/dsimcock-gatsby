@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import styled, { keyframes } from 'styled-components';
 
+import iconOpen from '../images/mobile_open.png';
+import iconClose from '../images/mobile_close.png';
+
 // maybe somehow merge this with Navigation.js?
 
 export const MobileNavigation = () => {
@@ -16,13 +19,6 @@ export const MobileNavigation = () => {
             navOrder
           }
         }
-        hamburger: contentfulImageWithMetadata(contentful_id: {eq: "1WalTBYZ3qDtCFxn6NzQ7z"}) {
-          image {
-            fluid {
-              src
-            }
-          }
-        }
       }
     `);
 
@@ -30,21 +26,14 @@ export const MobileNavigation = () => {
 
     pages.sort((a, b) => a.navOrder - b.navOrder);
 
-    const { src: hamburger } = data.hamburger.image.fluid;
-
     const [open, setOpen] = useState(false);
-
-    const openNav = () => {
-        setOpen(!open);
-    }
-
-    // needs fade-in/fade-out
 
     return (
         <MobileNav>
+        <Backdrop visible={open} onClick={() => setOpen(!open)}/>
             <MobileHeader>
-                <Button onClick={openNav}>
-                    <Hamburger src={hamburger} alt=""/>
+                <Button onClick={() => setOpen(!open)}>
+                    <Hamburger src={open ? iconClose : iconOpen} alt=""/>
                 </Button>
             </MobileHeader>
             {open &&
@@ -142,4 +131,15 @@ const StyledLink = styled(Link)`
     &:hover {
         opacity: 0.7;
     }
+`;
+
+const Backdrop = styled.div`
+    display: ${props => props.visible ? "block" : "none"};
+    position: fixed;
+    background-color: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
 `;
