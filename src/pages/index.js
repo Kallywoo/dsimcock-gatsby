@@ -86,7 +86,6 @@ export default function HomePage({ data }) {
                   </SecondaryText>
                   <SecondaryText collapse>
                       <SecondaryImageContainer>
-                          {/* ignores padding etc w/ GatsbyImage, look into how to style it!: */}
                           <GatsbyImage image={items[2].image.gatsbyImageData} alt="" />
                       </SecondaryImageContainer>
                   </SecondaryText>
