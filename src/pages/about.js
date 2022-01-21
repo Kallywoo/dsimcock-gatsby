@@ -44,13 +44,13 @@ export default function AboutPage({data}) {
 
     const options = {
         renderNode: {
-          [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>
+            [BLOCKS.PARAGRAPH]: (node, children) => <Text>{children}</Text>
         }
-      };
+    };
 
     return (
         <>
-            <SEO title="About Us" description="About us and customer testimonials"/>
+            <SEO title="About Us" description="About us and customer testimonials" />
             <main>
                 <MainContent>
                     <FlexBox>
@@ -58,18 +58,19 @@ export default function AboutPage({data}) {
                             {richParagraph && renderRichText(richParagraph, options)}
                         </AboutText>
                         <ImageContainer>
-                            <Image image={aboutPic} alt=""/>
+                            <Image image={aboutPic} alt="" />
                         </ImageContainer>
                     </FlexBox>
                 </MainContent>
-                <SecondaryContent id="testimonials">
+                <SecondaryContent id="testimonials" tabIndex="-1">
                     {testimonials.map(testimonial => 
-                    <Quote key={testimonial.id}>
-                        <Blockquote>
-                            <TextQuote>{testimonial.quote.quote}</TextQuote>
-                            <Cite>{testimonial.author}</Cite>
-                        </Blockquote>
-                    </Quote>)}
+                        <Quote key={testimonial.id}>
+                            <Blockquote>
+                                <TextQuote>{testimonial.quote.quote}</TextQuote>
+                                <Cite>{testimonial.author}</Cite>
+                            </Blockquote>
+                        </Quote>
+                    )}
                 </SecondaryContent>
             </main>
         </>
@@ -82,32 +83,36 @@ const MainContent = styled.div`
     padding: 0.975em;
     width: 70%;
     max-width: 940px;
+
     @media only screen and (max-width: 480px) {
         width: auto;
-    }
+    };
 `;
 
 const AboutText = styled.div`
     width: 40%;
+
     @media only screen and (max-width: 1000px) {
         width: 100%;
         text-align: center;
-    }
+    };
 `;
 
 const Text = styled.p`
     line-height: 1.4em;
     color: #3a3a87;
+
     @media only screen and (max-width: 480px) {
         font-size: 1em;
-    }
+    };
 `;
 
 const ImageContainer = styled.div`
     width: 57%;
+
     @media only screen and (max-width: 1000px) {
         display: none;
-    }
+    };
 `;
 
 const Image = styled(GatsbyImage)`
@@ -121,23 +126,27 @@ const SecondaryContent = styled(MainContent)`
     justify-content: space-between;
     align-items: center;
     flex-flow: wrap;
+
     @media only screen and (max-width: 1000px) {
         justify-content: center;
-    }
+    };
 `;
 
 const Quote = styled.div`
     margin-bottom: 0.65em;
     width: 50%;
+
     @media only screen and (max-width: 1000px) {
         width: 100%;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         margin-bottom: 2em;
-        &:last-child{
+
+        &:last-child {
             margin-bottom: 1em;
-        }
-    }
+        };
+    };
 `;
 
 const Blockquote = styled.blockquote`
@@ -156,8 +165,9 @@ const TextQuote = styled(Text)`
 const FlexBox = styled.div`
     display: flex;
     justify-content: space-between;
+    
     @media only screen and (max-width: 1000px) {
         flex-flow: wrap;
         justify-content: center;
-    }
+    };
 `;

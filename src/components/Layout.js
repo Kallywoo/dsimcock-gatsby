@@ -1,20 +1,52 @@
 import React from 'react';
 import { Footer } from './Footer';
 import { Header } from './Header';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import "@fontsource/bebas-neue";
 
 export const Layout = ({ children, location }) => {
-    return (
-        <>
-            <GlobalStyle/>
-            <Header props={location}/>
-            {children}
-            <Footer/>
-        </>
-    )
+  return (
+    <>
+      <GlobalStyle />
+      <SkipLink href="#skip">Skip to main content</SkipLink>
+      <Header props={location} />
+      <SkipContent id="skip" tabIndex="-1">Main Content</SkipContent>
+      {children}
+      <Footer />
+    </>
+  );
 };
+
+const SkipLink = styled.a`
+  position: absolute;
+  top: -1000%;
+
+  &:focus {
+    top: 0;
+    left: 33%;
+    right: 33%;
+    background-color: #303080;
+    color: white;
+    padding: 0.5em 2em;
+    text-decoration: none;
+    box-shadow: 3px 3px 3px #333333;
+    border-radius: 3px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+    text-align: center;
+    z-index: 2;
+
+    @media only screen and (max-width: 480px) {
+      box-shadow: none;
+    };
+  };
+`;
+
+const SkipContent = styled.h2`
+  position: absolute;
+  top: -1000%;
+`;
 
 const GlobalStyle = createGlobalStyle`
 

@@ -27,7 +27,7 @@ export const query = graphql`
 export default function ProjectsPage({ data: { projectList: { projects } }, pageContext }) {
     return (
       <>
-        <SEO title={pageContext.title} description={`${pageContext.title} work examples`}/>
+        <SEO title={pageContext.title} description={`${pageContext.title} work examples`} />
         <main>
             <MainContent>
                 <List>
@@ -49,9 +49,10 @@ const MainContent = styled.div`
     padding: 0.975em;
     width: 70%;
     max-width: 940px;
+
     @media only screen and (max-width: 480px) {
         width: auto;
-    }
+    };
 `;
 
 const List = styled.ul`
@@ -65,10 +66,12 @@ const List = styled.ul`
 const ListItem = styled.li`
     border-top: 1px solid white;
     border-bottom: 1px solid #c7deef;
+
     &:first-child {
         border-top: none;
-    }
+    };
+
     &:last-child {
         border-bottom: none;
-    }
+    };
 `;

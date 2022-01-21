@@ -31,12 +31,12 @@ export const Accordion = ({children}) => {
     
     return (
         <>
-            <Button active={active ? true : false} onClick={toggle} icon={arrow}>{title}</Button>
+            <Button aria-expanded={active ? true : false} onClick={toggle} icon={arrow}>{title}</Button>
             {active &&
                 <Panel>
                     {images?.map(image => 
                         <ImageLink key={image.id} target="_blank" rel="noreferrer" href={image.fluid.src}>
-                            <Image image={image.gatsbyImageData} alt={image.alt ? image.alt : ""}/>
+                            <Image image={image.gatsbyImageData} alt={image.alt ? image.alt : ""} />
                         </ImageLink>
                     )}
                 </Panel>
@@ -62,7 +62,7 @@ const Button = styled.button`
         position: relative;
         left: 6%;
         float: right;
-        transform: ${props => props.active ? "rotate(180deg)" : "none"};
+        transform: ${props => props['aria-expanded'] ? "rotate(180deg)" : "none"};
         transition: rotate 0.2s ease-in-out;
         @media only screen and (max-width: 680px) {
             left: 10%;

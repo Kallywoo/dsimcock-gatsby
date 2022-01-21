@@ -33,19 +33,19 @@ export default function SitemapPage({ data }) {
     pages.sort((a, b) => a.navOrder - b.navOrder);
     work.sort((a, b) => a.order - b.order);
 
-    const insertIndex = pages.findIndex(page => page.slug === "work") + 1;
+    const insertIndex = pages.findIndex(page => page.slug === "work") + 1; // gets the index after "work"
 
-    const insert = (arr, index, newItems) => [
+    const insert = (arr, index, newItems) => [ // inserts new items in an array at given index position
         ...arr.slice(0, index),
         ...newItems,
         ...arr.slice(index)
     ];
-      
-    const allPages = insert(pages, insertIndex, work);
+    
+    const allPages = insert(pages, insertIndex, work); // merges "pages" and "work" into one array, inserting work after the "work" page for categorical ordering
 
     return (
         <>
-            <SEO title="Sitemap"/>
+            <SEO title="Sitemap" />
             <main>
                 <MainContent>
                     <nav>
@@ -69,9 +69,10 @@ const MainContent = styled.div`
     padding: 0.975em;
     width: 70%;
     max-width: 940px;
+
     @media only screen and (max-width: 480px) {
         width: auto;
-    }
+    };
 `;
 
 const List = styled.ul`

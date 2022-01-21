@@ -28,40 +28,57 @@ export const MobileNavigation = () => {
 
     const [open, setOpen] = useState(false);
 
+    let timeout = null;
+
+    const onBlurHandler = () => {
+        timeout = setTimeout(() => {
+            setOpen(false);
+        });
+    };
+
+    const onFocusHandler = () => {
+        clearTimeout(timeout);
+    };
+
     return (
         <MobileNav>
-        <Backdrop visible={open} onClick={() => setOpen(!open)}/>
-            <MobileHeader>
-                <Button onClick={() => setOpen(!open)}>
-                    <Hamburger src={open ? iconClose : iconOpen} alt=""/>
-                </Button>
-            </MobileHeader>
-            {open &&
-                <NavigationDiv>
-                    <nav>
-                        <List>
-                            {pages.map(page => (
-                                <ListItem key={`${page.id}`}>
-                                    <StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </nav>
-                </NavigationDiv>
-            }
+            <Backdrop visible={open} onClick={() => setOpen(false)} />
+            {/* div element's handlers just capture whether children are highlighted, doesn't act like any role */}
+            {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
+            <div onBlur={() => onBlurHandler()} onFocus={() => onFocusHandler()}>
+                <MobileHeader>
+                    <Button onClick={() => setOpen(!open)} aria-label={!open ? `Open Navigation` : `Close Navigation`}>
+                        <Hamburger src={open ? iconClose : iconOpen} alt="" />
+                    </Button>
+                </MobileHeader>
+                {open &&
+                    <NavigationDiv>
+                        <nav>
+                            <List>
+                                {pages.map(page => (
+                                    <ListItem key={`${page.id}`}>
+                                        <StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink>
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </nav>
+                    </NavigationDiv>
+                }
+            </div>
         </MobileNav>
     )
 };
 
 const MobileNav = styled.div`
     display: none;
+
     @media only screen and (max-width: 480px) {
         display: block;
         position: fixed;
         width: 100%;
         z-index: 1;
         text-align: right;
-    }
+    };
 `;
 
 const MobileHeader = styled.div`
@@ -76,11 +93,12 @@ const Button = styled.button`
     background-color: #303080;
     border-style: none;
     border-left: 1px solid #28286e;
+
     &:active img {
         opacity: 0.75;
         background-color: #1a1a53;
         border-radius: 5px;
-    }
+    };
 `;
 
 const Hamburger = styled.img`
@@ -118,9 +136,10 @@ const ListItem = styled.li`
     font-size: 2.5em;
     padding: 0.2em;
     margin: 0 0.65em;
+
     &:last-child {
         border-bottom: none;
-    }
+    };
 `;
 
 const StyledLink = styled(Link)`
@@ -128,9 +147,10 @@ const StyledLink = styled(Link)`
     opacity: 1;
     transition: 0.3s;
     color: #CCE8FF;
+
     &:hover {
         opacity: 0.7;
-    }
+    };
 `;
 
 const Backdrop = styled.div`

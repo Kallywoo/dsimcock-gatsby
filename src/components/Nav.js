@@ -39,7 +39,7 @@ const StyledNavigation = styled.nav`
     
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
 const List = styled.ul`
@@ -64,7 +64,8 @@ const StyledLink = styled(Link)`
     color: white;
     opacity: 1;
     transition: 0.3s;
+
     &:hover {
         opacity: 0.7;
-    }
+    };
 `;
