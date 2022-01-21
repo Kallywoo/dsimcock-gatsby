@@ -36,10 +36,10 @@ export const ContactForm = () => {
 
         const body = {
             ...values,
-            recipient: `${process.env.SES_RECIPIENT}`
+            RECIPIENT: `${process.env.SES_RECIPIENT}`
         };
 
-        console.log(body);
+        // console.log(body);
 
         const res = await fetch(`${process.env.API_ENDPOINT}`, {
             method: 'POST',
@@ -51,12 +51,14 @@ export const ContactForm = () => {
 
         const text = JSON.parse(await res.text());
 
-        if(res.status >= 400 && res.status < 600) {
+        if (res.status >= 400 && res.status < 600) {
             setLoading(false);
-            setError(text.message);
+            setMessage(''); // clears message if user has already successfully submitted once before an error
+            setError(text);
         } else {
             // it worked!
             setLoading(false);
+            setError(''); // clears message if user has successfully submitted after an error
             setMessage('Email successfully sent!');
             handleReset();
         };
@@ -108,12 +110,14 @@ export const ContactForm = () => {
                     <ButtonContainer>
                         <Button type="reset" onClick={handleReset} disabled={loading} switch>Reset</Button>
                         <Button type="submit" disabled={loading}>
-                            {loading ? <img src={loadingIcon} alt="loading"/> : 'Submit'}
+                            {loading ? <img src={loadingIcon} alt="Submitting"/> : 'Submit'}
                         </Button>
                     </ButtonContainer>
-                    <div>
-                        {error ? <p>Error: {error}</p> : ''}
+                    <div aria-live="polite" role="status">
                         {message ? <p>{message}</p> : ''}
+                    </div>
+                    <div aria-live="assertive">
+                        {error ? <RedError>Error: {error}</RedError> : ''}
                     </div>
                 </Fields>
             </form>
@@ -127,9 +131,10 @@ const FormContainer = styled.div`
     color: #313e4b; //#445668; changed to higher contrast (a11y)
     text-align: center;
     margin: 0 auto;
+
     @media only screen and (max-width: 1000px) {
         width: 100%;
-    }
+    };
 `;
 
 const MainText = styled.h2`
@@ -138,9 +143,10 @@ const MainText = styled.h2`
     letter-spacing: 0.1em;
     margin: 0;
     margin-top: 0.5em;
+
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
 const Fields = styled.fieldset`
@@ -148,30 +154,34 @@ const Fields = styled.fieldset`
     text-align: right;
     margin: 1.3em;
     padding: 0;
+
     @media only screen and (max-width: 1000px) {
         text-align: center;
         padding: 0.5em;
-    }
+    };
+
     @media only screen and (max-width: 410px) {
         margin: 1.3em 0;
         padding: 0;
-    }
+    };
 `;
 
 const Label = styled.label`
     display: block;
     margin-left: auto;
     margin-bottom: 0.65em;
+
     @media only screen and (max-width: 1000px) {
         margin: 1em 0.5em 0.5em 0.5em;
         text-align: left;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         text-align: center;
         font-size: xx-large;
         margin-left: 0;
         margin-right: 0;
-    }
+    };
 `;
 
 const Input = styled.input`
@@ -197,7 +207,6 @@ const Input = styled.input`
         padding: 0.3em 0.1em;
         font-size: 1em;
     };
-
 `;
 
 const TextArea = styled.textarea`
@@ -209,17 +218,19 @@ const TextArea = styled.textarea`
     padding: 0.2em 0;
     border: none;
     margin-left: 0.65em;
+
     @media only screen and (max-width: 1000px) {
         display: block;
         margin: 0.5em auto;
         width: 85%;
         font-family: "Calibri";
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         width: 95%;
         padding: 0.3em 0.1em;
         font-size: 1em;
-    }
+    };
 `;
 
 const ButtonContainer = styled.div`
@@ -227,7 +238,7 @@ const ButtonContainer = styled.div`
         display: flex;
         justify-content: flex-end;
         flex-flow: wrap;
-    }
+    };
 `;
 
 const Button = styled.button`
@@ -250,7 +261,8 @@ const Button = styled.button`
     img {
         display: block;
         opacity: 40%;
-    }
+        margin: 0 auto;
+    };
 
     @media only screen and (max-width: 1000px) {
         width: 95%;
@@ -265,4 +277,8 @@ const Button = styled.button`
     @media only screen and (max-width: 410px) {
         padding: 0.5em 0em;
     };
+`;
+
+const RedError = styled.p`
+    color: red;
 `;

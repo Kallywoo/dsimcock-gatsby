@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BLOCKS } from '@contentful/rich-text-types';
 import { graphql } from 'gatsby';
 import { renderRichText } from 'gatsby-source-contentful/rich-text';
-// import { GatsbyImage } from 'gatsby-plugin-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 
 import { Carousel } from '../components/Carousel';
 import SEO from '../components/SEO';
@@ -50,7 +50,7 @@ export const query = graphql`
   }
 `;
 
-export default function HomePage({data}) {
+export default function HomePage({ data }) {
 
   const { mainContent, secondaryContent } = data.home;
   const { title, richParagraph } = mainContent[1];
@@ -64,13 +64,13 @@ export default function HomePage({data}) {
 
   return (
     <>
-      <SEO title="Home"/>
+      <SEO title="Home" />
       <main>
           <MainContent>
               <FlexBox>
-                  <Carousel type="img" duration="5000" transition="500"/>
+                  <Carousel type="img" duration="5000" transition="500" />
                   <MainText>
-                      <Welcome>{title}</Welcome> {/* find a way to split this so "welcome to" is on a seperate line? */}
+                      <Welcome>{title}</Welcome>
                       {richParagraph && renderRichText(richParagraph, options)}
                   </MainText>
               </FlexBox>
@@ -85,14 +85,15 @@ export default function HomePage({data}) {
                       <p>{items[1].paragraph.text}</p>
                   </SecondaryText>
                   <SecondaryText collapse>
-                    {/* ignores padding etc w/ GatsbyImage, look into how to style it!: */}
-                      <SecondaryImage src={items[2].image.fluid.src} alt=""/>
+                      <SecondaryImageContainer>
+                          {/* ignores padding etc w/ GatsbyImage, look into how to style it!: */}
+                          <GatsbyImage image={items[2].image.gatsbyImageData} alt="" />
+                      </SecondaryImageContainer>
                   </SecondaryText>
               </FlexBox>
           </MainContent>
-
           <SecondaryContent>
-              <Carousel type="text" duration="6000" transition="500"/>
+              <Carousel type="text" duration="6000" transition="500" />
               <Areas>
                   <TertiaryHeader>{secondaryContent[1].title}</TertiaryHeader>
                   <p>{secondaryContent[1].paragraph.text}</p>
@@ -110,21 +111,24 @@ const MainContent = styled.div`
     padding: 0.975em;
     width: 70%;
     max-width: 940px;
+
     @media only screen and (max-width: 480px) {
         width: auto;
-    }
+    };
 `;
 
 const MainText = styled.div`
     width: 34%;
+
     @media only screen and (max-width: 1000px) {
         width: 100%;
         text-align: center;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         font-size: 1.25em;
         margin-top: 1em;
-    }
+    };
 `;
 
 const Welcome = styled.h2`
@@ -132,22 +136,26 @@ const Welcome = styled.h2`
     margin-top: 0;
     margin-right: 5px;
     color: #303080;
+
     @media only screen and (max-width: 1000px) {
         margin-top: 0.5em;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         margin-top: 0;
-    }
+    };
 `;
 
 const Text = styled.p`
     line-height: 1.4em;
+
     @media only screen and (max-width: 1200px) {
         line-height: normal;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         font-size: 0.75em;
-    }
+    };
 `;
 
 const TertiaryHeader = styled.h3`
@@ -158,13 +166,15 @@ const SecondaryContent = styled(MainContent)`
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     @media only screen and (max-width: 1000px) {
         justify-content: center;
         flex-flow: nowrap;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
 const SecondaryText = styled.div`
@@ -175,23 +185,27 @@ const SecondaryText = styled.div`
     text-align: center;
     overflow: hidden;
     height: 12.5em;
+
     &:nth-of-type(2) {
         margin-left: 1.3em;
         margin-right: 1.3em;
-    }
+    };
+
     @media only screen and (max-width: 1200px) {
         display: ${props => props.collapse ? "none" : "block"};
         height: auto;
+
         &:nth-of-type(2) {
             margin-right: 0;
-        }
-    }
+        };
+    };
+
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
-const SecondaryImage = styled.img`
+const SecondaryImageContainer = styled.div`
     width: 100%;
     margin: auto;
     align-self: center;
@@ -201,15 +215,16 @@ const SecondaryImage = styled.img`
 const FlexBox = styled.div`
     display: flex;
     justify-content: space-between;
+
     @media only screen and (max-width: 1000px) {
         flex-flow: wrap;
         justify-content: center;
-    }
+    };
 `;
 
 const Areas = styled.div`
     @media only screen and (max-width: 1000px) {
         text-align: center;
         max-width: 50%;
-    }
+    };
 `;

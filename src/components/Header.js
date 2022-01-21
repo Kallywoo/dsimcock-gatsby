@@ -40,12 +40,13 @@ export const Header = ({ props }) => {
 
     return (
         <header>
-            <MobileNavigation/>
-            
+            <MobileNavigation />
             <General>
-                <Link to="/">
-                    <Logo image={logo} alt="D.Simcock & Son"/>
-                </Link>
+                <H1>
+                    <Link to="/">
+                        <Logo image={logo} alt="D.Simcock & Son" />
+                    </Link>
+                </H1>
                 <Information>
                     <ContactContainer>
                         <ContactInfo>Mobile: <Details href={`tel:${mobile.replace(/\s+/g, '')}`}>{mobile}</Details></ContactInfo>
@@ -55,14 +56,19 @@ export const Header = ({ props }) => {
                     <Description>{description}</Description>
                 </Information>
             </General>
-
-            <Navigation/>
-
+            <Navigation />
             <ContactUs visible={pathname !== "/contact" ? true : false}>
-                <Link to="/contact">{<ContactImage image={contact} alt=""/>}</Link>
+                <Link to="/contact">
+                    <ContactImage image={contact} alt="Go to Contact page" />
+                </Link>
             </ContactUs>
         </header>
 )};
+
+const H1 = styled.h1`
+    margin: 0;
+    padding: 0;
+`;
 
 const General = styled.div`
     display: flex;
@@ -73,17 +79,20 @@ const General = styled.div`
     margin: auto;
     width: 72%;
     max-width: 940px;
+
     @media only screen and (max-width: 1200px) {
         flex-flow: wrap;
         justify-content: center;
-    }
+    };
+
     @media only screen and (max-width: 680px) {
         width: auto;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         padding-top: 100px;
         padding-bottom: 0;
-    }
+    };
 `;
 
 const Logo = styled(GatsbyImage)`
@@ -104,9 +113,10 @@ const Description = styled.h2`
     letter-spacing: 4px;
     font-family: 'Bebas Neue', sans-serif;
     font-weight: normal;
+
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
 const ContactContainer = styled.div`
@@ -122,9 +132,10 @@ const Details = styled.a`
     color: black;
     text-decoration: none;
     transition: 0.3s;
+
     &:hover {
         color: #4f34b3;
-    }
+    };
 `;
 
 const ContactUs = styled.div`
@@ -135,9 +146,10 @@ const ContactUs = styled.div`
     -webkit-box-shadow: 0 0 5px 3px #a5a5c7;
     box-shadow: 0 0 5px 3px #a5a5c7;
     z-index: 0;
+
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
 const ContactImage = styled(GatsbyImage)`

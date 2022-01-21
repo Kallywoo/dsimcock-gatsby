@@ -25,7 +25,7 @@ export const query = graphql`
   }
 `;
 
-export default function WorkPage({data}) {
+export default function WorkPage({ data }) {
     const { paragraph } = data.contentfulLayout.mainContent[0].paragraph;
     const { areas } = data.contentfulLayout;
 
@@ -33,7 +33,7 @@ export default function WorkPage({data}) {
 
     return (
       <>
-        <SEO title="Our Work" description="Our work"/>
+        <SEO title="Our Work" description="Our work" />
         <main>
             <MainContent>
                 <WorkExamples>
@@ -45,7 +45,7 @@ export default function WorkPage({data}) {
             </MainContent>
         </main>
       </>
-    )
+    );
 };
 
 const MainContent = styled.div`
@@ -54,9 +54,10 @@ const MainContent = styled.div`
     padding: 0.975em;
     width: 70%;
     max-width: 940px;
+
     @media only screen and (max-width: 480px) {
         width: auto;
-    }
+    };
 `;
 
 const WorkExamples = styled.div`
@@ -67,9 +68,10 @@ const WorkExamples = styled.div`
 
 const Text = styled.p`
     font-size: medium;
+
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
 const StyledLink = styled(Link)`
@@ -81,7 +83,8 @@ const StyledLink = styled(Link)`
     font-size: xx-large;
     text-shadow: 1px 1px black;
     transition: 0.2s;
+
     &:hover {
         color: #C4C2CC;
-    }
+    };
 `;

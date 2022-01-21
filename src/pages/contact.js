@@ -25,13 +25,14 @@ export const query = graphql`
   }
 `;
 
-export default function ContactPage({ data: {contentfulLayout: {mainContent}} }) {
+export default function ContactPage({ data: { contentfulLayout: { mainContent } } }) {
+
     const { telephone, mobile1, mobile2, email } = mainContent[0];
     const { paragraph } = mainContent[1].paragraph;
 
     return (
         <>
-            <SEO title="Contact Us" description="Contact details and Email form"/>
+            <SEO title="Contact Us" description="Contact details and Email form" />
             <main>
                 <MainContent>
                     <FlexBox>
@@ -44,9 +45,7 @@ export default function ContactPage({ data: {contentfulLayout: {mainContent}} })
                             </List>
                             <Text>{paragraph}</Text>
                         </ContactInfo>
-
-                        <ContactForm/>
-
+                        <ContactForm />
                     </FlexBox>
                 </MainContent>
             </main>
@@ -60,32 +59,36 @@ const MainContent = styled.div`
     padding: 0.975em;
     width: 70%;
     max-width: 940px;
+
     @media only screen and (max-width: 480px) {
         padding: 0;
         width: auto;
-    }
+    };
 `;
 
 const FlexBox = styled.div`
     display: flex;
     justify-content: space-between;
+
     @media only screen and (max-width: 1000px) {
         flex-flow: wrap;
         justify-content: center;
-    }
+    };
 `;
 
 const ContactInfo = styled.div`
     width: 40%;
     padding: 1.3em;
+
     @media only screen and (max-width: 1000px) {
         text-align: center;
         width: auto;
         padding: 0;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         display: none;
-    }
+    };
 `;
 
 const List = styled.ul`
@@ -115,7 +118,8 @@ const Details = styled.a`
     transition: 0.3s;
     font-weight: normal;
     letter-spacing: normal;
+
     &:hover {
         color: #4f34b3;
-    }
+    };
 `;

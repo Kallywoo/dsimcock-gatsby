@@ -34,10 +34,22 @@ export const Footer = () => {
         <StyledFooter>
             <Navigation>
                 <List>
-                    {pages.nodes.map(page => <ListItem key={`${page.id}`}><StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink></ListItem>)}
-                    <ListItem><StyledLink to="/about#testimonials">Testimonials</StyledLink></ListItem>
-                    {work.nodes.map(page => <ListItem key={`${page.id}`}><StyledLink to={`/work/${page.slug}`}>{page.name} Examples</StyledLink></ListItem>)}
-                    <ListItem><StyledLink to="/sitemap">Sitemap</StyledLink></ListItem>
+                    {pages.nodes.map(page => 
+                        <ListItem key={`${page.id}`}>
+                            <StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink>
+                        </ListItem>
+                    )}
+                    <ListItem>
+                        <StyledLink to="/about#testimonials">Testimonials</StyledLink>
+                    </ListItem>
+                    {work.nodes.map(page => 
+                        <ListItem key={`${page.id}`}>
+                            <StyledLink to={`/work/${page.slug}`}>{page.name} Examples</StyledLink>
+                        </ListItem>
+                    )}
+                    <ListItem>
+                        <StyledLink to="/sitemap">Sitemap</StyledLink>
+                    </ListItem>
                 </List>
             </Navigation>
         </StyledFooter>
@@ -63,25 +75,29 @@ const List = styled.ul`
     align-content: flex-start;
     width: 100%;
     height: 95px;
+
     @media only screen and (max-width: 480px) {
         display: block;
         text-align: center;
         height: auto;
-    }
+    };
 `;
 
 const ListItem = styled.li`
     margin-right: 2.6em;
-    &:last-child{
+
+    &:last-child {
         margin-top: auto;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         margin-top: 0.8em;
         margin-right: 0em;
+
         &:nth-child(1n + 6) {
             display: none;
-        }
-    }
+        };
+    };
 `;
 
 const StyledLink = styled(Link)`
@@ -92,10 +108,12 @@ const StyledLink = styled(Link)`
     color: white;
     opacity: 1;
     transition: 0.3s;
+
     &:hover {
         opacity: 0.7;
-    }
+    };
+
     @media only screen and (max-width: 480px) {
         font-size: 2em;
-    }
+    };
 `;
