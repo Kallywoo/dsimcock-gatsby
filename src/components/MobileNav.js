@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import styled, { keyframes } from 'styled-components';
 
-import iconOpen from '../images/mobile_open.png';
-import iconClose from '../images/mobile_close.png';
+import iconOpen from '../images/mobile-nav-open.png';
+import iconClose from '../images/mobile-nav-close.png';
 
 // maybe somehow merge this with Navigation.js?
 
 export const MobileNavigation = () => {
 
     const data = useStaticQuery(graphql`
-      query {
-        allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
-          pages: nodes {
-            id
-            name
-            slug
-            navOrder
-          }
+        query {
+            allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+                pages: nodes {
+                    id
+                    name
+                    slug
+                    navOrder
+                }
+            }
         }
-      }
     `);
 
     const { pages } = data.allContentfulLayout;
@@ -55,18 +55,24 @@ export const MobileNavigation = () => {
                     <NavigationDiv>
                         <nav>
                             <List>
-                                {pages.map(page => (
+                                {pages?.map(page => 
                                     <ListItem key={`${page.id}`}>
-                                        <StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink>
+                                        <StyledLink 
+                                            to={`/${page.slug ? page.slug : ""}`} 
+                                            partiallyActive={page.slug ? true : false} 
+                                            activeStyle={{opacity: "0.5"}}
+                                        >
+                                            {page.name}
+                                        </StyledLink>
                                     </ListItem>
-                                ))}
+                                )}
                             </List>
                         </nav>
                     </NavigationDiv>
                 }
             </div>
         </MobileNav>
-    )
+    );
 };
 
 const MobileNav = styled.div`
@@ -114,7 +120,7 @@ const NavigationDiv = styled.div`
     background-color: #303080;
     border-radius: 0.5em;
     width: 75%;
-    margin: 0.5em;
+    margin: 1em;
     margin-left: auto;
     padding: 0.4em;
     animation-name: ${NavAnimation};
@@ -133,16 +139,15 @@ const List = styled.ul`
 const ListItem = styled.li`
     display: block;
     border-bottom: 3px solid white;
-    font-size: 2.5em;
-    padding: 0.2em;
-    margin: 0 0.65em;
-
-    &:last-child {
-        border-bottom: none;
-    };
+    font-size: 2em;
+    padding: 0.65em 0.2em;
+    margin: 0.5em 0.5em;
+    border: 1px solid white;
+    border-radius: 10px;
 `;
 
 const StyledLink = styled(Link)`
+    display: block;
     text-decoration: none;
     opacity: 1;
     transition: 0.3s;

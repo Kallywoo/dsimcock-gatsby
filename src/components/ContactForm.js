@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import loadingIcon from '../images/loading.gif';
+import loadingIcon from '../images/spinner.svg';
 
 export const ContactForm = () => {
 
@@ -105,12 +105,12 @@ export const ContactForm = () => {
                             value={values.boop}
                             onChange={handleInputChange}
                             className="boop"
-                    />
+                        />
                     </Label>
                     <ButtonContainer>
                         <Button type="reset" onClick={handleReset} disabled={loading} switch>Reset</Button>
                         <Button type="submit" disabled={loading}>
-                            {loading ? <img src={loadingIcon} alt="Submitting"/> : 'Submit'}
+                            {loading ? <img src={loadingIcon} alt="Submitting" /> : 'Submit'}
                         </Button>
                     </ButtonContainer>
                     <div aria-live="polite" role="status">
@@ -139,13 +139,16 @@ const FormContainer = styled.div`
 
 const MainText = styled.h2`
     font-family: 'Bebas Neue', sans-serif;
-    font-size: xx-large;
+    font-size: 3em;
     letter-spacing: 0.1em;
     margin: 0;
-    margin-top: 0.5em;
+    margin-top: 0.25em;
 
     @media only screen and (max-width: 480px) {
-        display: none;
+        margin: 0.5em;
+        margin-bottom: 0;
+        padding-bottom: 0.5em;
+        border-bottom: 2px dashed grey;
     };
 `;
 
@@ -158,18 +161,19 @@ const Fields = styled.fieldset`
     @media only screen and (max-width: 1000px) {
         text-align: center;
         padding: 0.5em;
+        margin-top: 0;
     };
 
     @media only screen and (max-width: 410px) {
         margin: 1.3em 0;
-        padding: 0;
     };
 `;
 
 const Label = styled.label`
     display: block;
     margin-left: auto;
-    margin-bottom: 0.65em;
+    margin-bottom: 0.85em;
+    font-size: 0.9em;
 
     @media only screen and (max-width: 1000px) {
         margin: 1em 0.5em 0.5em 0.5em;
@@ -178,7 +182,7 @@ const Label = styled.label`
 
     @media only screen and (max-width: 480px) {
         text-align: center;
-        font-size: xx-large;
+        font-size: 1.5em;
         margin-left: 0;
         margin-right: 0;
     };
@@ -187,9 +191,9 @@ const Label = styled.label`
 const Input = styled.input`
     width: 60%;
     outline: none;
-    padding: 0.2em 0;
+    padding: 0.25em 0;
     border: none;
-    margin-left: 0.65em;
+    margin-left: 1em;
 
     &.boop {
         display: none;
@@ -198,7 +202,8 @@ const Input = styled.input`
     @media only screen and (max-width: 1000px) {
         display: block;
         margin: 0.5em auto;
-        width: 85%;
+        width: 100%;
+        font-size: 1.5em;
         font-family: "Calibri";
     };
 
@@ -206,23 +211,25 @@ const Input = styled.input`
         width: 95%;
         padding: 0.3em 0.1em;
         font-size: 1em;
+        border-radius: 10px;
     };
 `;
 
 const TextArea = styled.textarea`
+    width: 60%;
+    height: 6em;
+    padding: 0.25em 0;
+    margin-left: 1em;
     vertical-align: top;
     resize: none;
-    height: 6em;
-    width: 60%;
     outline: none;
-    padding: 0.2em 0;
     border: none;
-    margin-left: 0.65em;
 
     @media only screen and (max-width: 1000px) {
         display: block;
         margin: 0.5em auto;
-        width: 85%;
+        width: 100%;
+        font-size: 1.5em;
         font-family: "Calibri";
     };
 
@@ -256,22 +263,20 @@ const Button = styled.button`
 
     &:disabled {
         ${props => props.type === 'submit' ? 'padding: 0.5em 4em' : ''};
+        cursor: default;
     };
 
     img {
         display: block;
-        opacity: 40%;
         margin: 0 auto;
+        width: 16px;
     };
 
     @media only screen and (max-width: 1000px) {
         width: 95%;
         margin: 1em auto;
         order: ${props => props.switch ? "1" : "0"};
-    };
-
-    @media only screen and (max-width: 480px) {
-        font-size: 2em;
+        font-size: 1.5em;
     };
 
     @media only screen and (max-width: 410px) {

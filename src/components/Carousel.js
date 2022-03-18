@@ -1,35 +1,35 @@
 // could just swap this all out with some plugin and adjust as needed instead of using all this manual code
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useStaticQuery, graphql, Link } from 'gatsby';
-import styled from 'styled-components';
 import { GatsbyImage } from 'gatsby-plugin-image';
+import styled from 'styled-components';
 
-export const Carousel = ({type, duration, transition}) => {
+export const Carousel = ({ type, duration, transition }) => {
 
     const data = useStaticQuery(graphql`
-      query {
-        home: contentfulLayout(contentful_id: {eq: "1mbJR12XDGubPzpJKUxRHZ"}) {
-            mainContent {
-            ... on ContentfulImageCarousel {
-                images {
-                  altTag
-                  title
-                  image {
-                    gatsbyImageData(placeholder: BLURRED)
-                  }
+        query {
+            home: contentfulLayout(contentful_id: {eq: "1mbJR12XDGubPzpJKUxRHZ"}) {
+                mainContent {
+                    ... on ContentfulImageCarousel {
+                        images {
+                            altTag
+                            title
+                            image {
+                                gatsbyImageData(placeholder: BLURRED)
+                            }
+                        }
+                    }
                 }
-              }
-            }
-            secondaryContent {
-            ... on ContentfulTestimonials {
-                testimonials {
-                  author
-                  snippet
+                secondaryContent {
+                    ... on ContentfulTestimonials {
+                        testimonials {
+                            author
+                            snippet
+                        }
+                    }
                 }
-              }
             }
-          }
         }
     `);
 
@@ -41,63 +41,56 @@ export const Carousel = ({type, duration, transition}) => {
     const [fadeOut, setFadeOut] = useState(false);
 
     const [index, setIndex] = useState(0);
-    // const [nextIndex, setNextIndex] = useState(1); // hopefully with GatsbyImage this isn't needed..
 
-    const [isMounted, setIsMounted] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
 
-    useEffect(() => {
-        setIsMounted(true);
-
-        return () => setIsMounted(false);
-    }, []);
+    const timer = useRef();
+    const timer2 = useRef();
 
     useEffect(() => {
 
-        let timeout = null;
+        setFadeOut(false); // fades in
 
-        if (isMounted) {
-            setFadeOut(false); // fades in
+        // variable to stop/kickstart timeouts again after mouseover - mouseleave
+        if (!isHovering) {
 
-            // variable to stop/kickstart timeouts again after mouseover - mouseleave
-            if (!isHovering) {
-                // console.log("not hovering");
+            // while in faded-in (visible) state, wait for given duration
+            timer.current = setTimeout(() => { // captures current timer id for cleanup
+                setFadeOut(true); // fades out
 
-                // while in faded-in (visible) state, wait for given duration
-                timeout = setTimeout(() => { // captures current timer id in a global container for pauseSlides & cleanup
-                    setFadeOut(true); // fades out
+                // wait the time it takes to fade out, then swap
+                timer2.current = setTimeout(() => {
 
-                    // wait the time it takes to fade out, then swap
-                    setTimeout(() => {
+                    // while faded out (invisible), updates the index
+                    // in turn calling useEffect and repeating the cycle
+                    if ((type === "img" && index !== images.length - 1) 
+                    || (type === "text" && index !== quotes.length - 1)) { 
+                        setIndex(index + 1);
+                    } else { setIndex(0); };
+                    
+                }, transition);
 
-                        // while faded out (invisible), updates the index
-                        // in turn calling useEffect and repeating the cycle
-                        if ((type === "img" && index !== images.length - 1) 
-                        || (type === "text" && index !== quotes.length - 1)) { 
-                            setIndex(index + 1);
-                        } else { setIndex(0); }
-                        
-                        // if (nextIndex !== images.length - 1) {
-                        //     setNextIndex(nextIndex + 1); // FIX?: this is a dependency, so kicks off another run of useEffect immediately after index, could remove as dependency but then React complains..
-                        // } else { setNextIndex(0); }
-                        
-                    }, transition);
+            }, duration);
 
-                }, duration);
-
-            } else {
-                clearTimeout(timeout);
-                // console.log("hovering");
-            };
+        } else {
+            clearTimeout(timer.current);
+            clearTimeout(timer2.current);
         };
 
-        return () => clearTimeout(timeout);
+        return () => {
+            clearTimeout(timer.current);
+            clearTimeout(timer2.current);
+        };
 
-    }, [isMounted, isHovering, index, /*nextIndex,*/ type, transition, duration, images.length, quotes.length]);
+    }, [isHovering, index, type, transition, duration, images.length, quotes.length]);
 
     if (images && type === "img") {
         return (
-            <ImageContainer fade={fadeOut ? true : false} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+            <ImageContainer 
+                fade={fadeOut ? true : false} 
+                onMouseEnter={() => setIsHovering(true)} 
+                onMouseLeave={() => setIsHovering(false)}
+            >
                 <Image
                     id="slide-img" 
                     image={images[index].image.gatsbyImageData} 
@@ -105,9 +98,6 @@ export const Carousel = ({type, duration, transition}) => {
                     alt={images[index].altTag} 
                     loading="eager"
                 />
-                {/* <HiddenImage 
-                    src={images[nextIndex].image.fluid.src} alt="" // loads the next image to prevent occasional delayed swap issue
-                /> */}
             </ImageContainer>
         );
     } else if (quotes && type === "text") {
@@ -127,7 +117,6 @@ export const Carousel = ({type, duration, transition}) => {
 };
 
 const ImageContainer = styled.div`
-    width: 64%;
     opacity: ${props => props.fade ? "0" : "1"};
     transition: opacity 0.5s;
 
@@ -144,11 +133,6 @@ const Image = styled(GatsbyImage)`
         width: 100%;
     };
 `;
-
-// const HiddenImage = styled.img`
-//     position: absolute;
-//     left: -10000px;
-// `;
 
 const QuoteContainer = styled.div`
     min-width: 33%;
