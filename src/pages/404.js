@@ -1,54 +1,55 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import styled from 'styled-components';
 
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
+export default function NotFoundPage() {
+    return (
+        <Main>
+            <title>Not found</title>
+            <H1>Page not found</H1>
+            <Paragraph>
+                Sorry{" "}
+                <span role="img" aria-label="Pensive emoji">
+                😔
+                </span>{" "}
+                we couldn’t find what you were looking for.
+                <br />
+                {process.env.NODE_ENV === "development" ? (
+                <>
+                    <br />
+                    Try creating a page in <Code>src/pages/</Code>.
+                    <br />
+                </>
+                ) : null}
+                <br />
+                <Link to="/">Go home</Link>.
+            </Paragraph>
+        </Main>
+    );
+};
 
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
+const Main = styled.main`
+    color: #232129;
+    padding: 96px;
+    font-family: "-apple-system, Roboto, sans-serif, serif";
+    max-width: 970px;
+    margin: 0 auto;
+`;
 
-// markup
-const NotFoundPage = () => {
-  return (
-    <main style={pageStyles}>
-      <title>Not found</title>
-      <h1 style={headingStyles}>Page not found</h1>
-      <p style={paragraphStyles}>
-        Sorry{" "}
-        <span role="img" aria-label="Pensive emoji">
-          😔
-        </span>{" "}
-        we couldn’t find what you were looking for.
-        <br />
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
-        ) : null}
-        <br />
-        <Link to="/">Go home</Link>.
-      </p>
-    </main>
-  )
-}
+const H1 = styled.h1`
+    margin-top: 0;
+    margin-bottom: 64px;
+    max-width: 320px;
+`;
 
-export default NotFoundPage
+const Paragraph = styled.p`
+    margin-bottom: 48px;
+`;
+
+const Code = styled.code`
+    color: #8A6534;
+    padding: 4px;
+    background-color: #FFF4DB;
+    font-size: 1.25rem;
+    border-radius: 4px;
+`;

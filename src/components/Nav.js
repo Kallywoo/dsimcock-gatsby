@@ -5,16 +5,16 @@ import styled from 'styled-components';
 export const Navigation = () => {
 
     const data = useStaticQuery(graphql`
-      query {
-        allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
-          pages: nodes {
-            id
-            name
-            slug
-            navOrder
-          }
+        query {
+            allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+                pages: nodes {
+                    id
+                    name
+                    slug
+                    navOrder
+                }
+            }
         }
-      }
     `);
 
     const { pages } = data.allContentfulLayout;
@@ -24,11 +24,11 @@ export const Navigation = () => {
     return (
         <StyledNavigation>
             <List>
-                {pages.map(page => (
+                {pages.map(page => 
                     <ListItem key={`${page.id}`}>
                         <StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink>
                     </ListItem>
-                ))}
+                )}
             </List>
         </StyledNavigation>
 )};
@@ -43,15 +43,19 @@ const StyledNavigation = styled.nav`
 `;
 
 const List = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0.32em;
     padding: 0;
     list-style-type: none;
-    margin: 0.32em;
     text-align: center;
 `;
 
 const ListItem = styled.li`
     display: inline;
-    margin: 0 0.65em;
+    margin: 0 1.2em;
+    white-space: nowrap;
 `;
 
 const StyledLink = styled(Link)`
@@ -59,7 +63,7 @@ const StyledLink = styled(Link)`
     font-family: 'Bebas Neue', sans-serif;
     font-weight: normal;
     letter-spacing: 2px;
-    font-size: larger;
+    font-size: 1.5em;
     text-decoration: none;
     color: white;
     opacity: 1;

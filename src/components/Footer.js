@@ -5,24 +5,24 @@ import styled from 'styled-components';
 export const Footer = () => {
 
     const data = useStaticQuery(graphql`
-      query {
-        pages: allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
-          nodes {
-            id
-            name
-            slug
-            navOrder
-          }
+        query {
+            pages: allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+                nodes {
+                    id
+                    name
+                    slug
+                    navOrder
+                }
+            }
+            work: allContentfulAreaOfWork(filter: {node_locale: {eq: "en-US"}}) {
+                nodes {
+                    id
+                    name
+                    slug
+                    order
+                }
+            }
         }
-        work: allContentfulAreaOfWork(filter: {node_locale: {eq: "en-US"}}) {
-          nodes {
-            id
-            name
-            slug
-            order
-          }
-        }
-      }
     `);
 
     const { pages, work } = data;
@@ -53,7 +53,7 @@ export const Footer = () => {
                 </List>
             </Navigation>
         </StyledFooter>
-    )
+    );
 };
 
 const StyledFooter = styled.footer`
@@ -65,16 +65,20 @@ const Navigation = styled.nav`
     margin: auto;
     width: 72%;
     max-width: 940px;
+
+    @media only screen and (max-width: 480px) {
+        width: 90%;
+    };
 `;
 
 const List = styled.ul`
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
+    gap: 0.4em 3em;
     padding: 0;
     list-style-type: none;
-    display: inline-flex;
-    flex-flow: column wrap;
-    align-content: flex-start;
     width: 100%;
-    height: 95px;
 
     @media only screen and (max-width: 480px) {
         display: block;
@@ -84,15 +88,22 @@ const List = styled.ul`
 `;
 
 const ListItem = styled.li`
-    margin-right: 2.6em;
+    white-space: nowrap;
 
     &:last-child {
-        margin-top: auto;
+        grid-row: 5;
     };
 
     @media only screen and (max-width: 480px) {
         margin-top: 0.8em;
         margin-right: 0em;
+        border: 1px solid white;
+        border-radius: 10px;
+        padding: 0.5em 0em;
+
+        &:active {
+            background-color: rgba(255, 255, 255, 0.25);
+        };
 
         &:nth-child(1n + 6) {
             display: none;
@@ -101,6 +112,7 @@ const ListItem = styled.li`
 `;
 
 const StyledLink = styled(Link)`
+    display: block;
     font-family: "Calibri";
     text-transform: uppercase;
     font-weight: bold;

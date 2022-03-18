@@ -4,14 +4,14 @@ async function createProjectListPages({ graphql, actions }) {
     const listTemplate = path.resolve('./src/templates/Projects.js');
 
     const { data } = await graphql(`
-      query {
-        areas: allContentfulAreaOfWork(filter: {node_locale: {eq: "en-US"}}) {
-          nodes {
-            name
-            slug
-          }
+        query {
+            areas: allContentfulAreaOfWork(filter: {node_locale: {eq: "en-US"}}) {
+                nodes {
+                    name
+                    slug
+                }
+            }
         }
-      }
     `);
 
     data.areas.nodes.forEach(area => {
@@ -23,10 +23,10 @@ async function createProjectListPages({ graphql, actions }) {
               slug: area.slug,
             }
         });
-    console.log(`Creating page for ${area.name}`);
+        console.log(`Creating page for ${area.name}`);
     });
-}
+};
 
 export async function createPages(params) {
     await createProjectListPages(params);
-}
+};

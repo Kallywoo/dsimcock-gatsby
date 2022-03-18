@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import { GatsbyImage } from "gatsby-plugin-image";
+import { GatsbyImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
 
 import { Navigation } from './Nav';
@@ -11,26 +11,26 @@ export const Header = ({ props }) => {
     const { pathname } = props; // pulled from Layout.js
 
     const data = useStaticQuery(graphql`
-      query {
-	    contentfulHeader {
-          logo {
-            image {
-              gatsbyImageData(placeholder: BLURRED)
+        query {
+            contentfulHeader {
+                logo {
+                    image {
+                        gatsbyImageData(placeholder: BLURRED)
+                    }
+                }
+                description
+                contactInformation {
+                    telephone
+                    mobile: mobile1
+                    email
+                }
+                contactImage {
+                    image {
+                        gatsbyImageData(placeholder: BLURRED)
+                    }
+                }
             }
-          }
-          description
-          contactInformation {
-			telephone
-            mobile: mobile1
-            email
-          }
-          contactImage {
-            image {
-              gatsbyImageData(placeholder: BLURRED)
-            }
-          }
         }
-      }
     `);
 
     const { description } = data.contentfulHeader;
@@ -40,6 +40,7 @@ export const Header = ({ props }) => {
 
     return (
         <header>
+            <SkipLink href="#skip">Skip to main content</SkipLink>
             <MobileNavigation />
             <General>
                 <H1>
@@ -57,13 +58,39 @@ export const Header = ({ props }) => {
                 </Information>
             </General>
             <Navigation />
-            <ContactUs visible={pathname !== "/contact" ? true : false}>
+            <ContactUs visible={!pathname.includes("/contact") ? true : false}>
                 <Link to="/contact">
                     <ContactImage image={contact} alt="Go to Contact page" />
                 </Link>
             </ContactUs>
         </header>
-)};
+    );
+};
+
+const SkipLink = styled.a`
+    position: absolute;
+    top: -1000%;
+
+    &:focus {
+        top: 0;
+        left: 33%;
+        right: 33%;
+        background-color: #303080;
+        color: white;
+        padding: 0.5em 2em;
+        text-decoration: none;
+        box-shadow: 3px 3px 3px #333333;
+        border-radius: 3px;
+        font-family: 'Bebas Neue', sans-serif;
+        letter-spacing: 2px;
+        text-align: center;
+        z-index: 2;
+
+        @media only screen and (max-width: 480px) {
+            box-shadow: none;
+        };
+    };
+`;
 
 const H1 = styled.h1`
     margin: 0;
@@ -74,11 +101,12 @@ const General = styled.div`
     display: flex;
     justify-content: space-between;
     padding: 1.3em 0;
-    font-size: small;
+    font-size: 0.9em;
     text-align: center;
     margin: auto;
     width: 72%;
     max-width: 940px;
+    gap: 0.5em;
 
     @media only screen and (max-width: 1200px) {
         flex-flow: wrap;
@@ -105,7 +133,6 @@ const Logo = styled(GatsbyImage)`
 const Information = styled.div`
     display: inline-block;
     margin: auto;
-    margin-top: 0.36em;
 `;
 
 const Description = styled.h2`
@@ -119,12 +146,17 @@ const Description = styled.h2`
     };
 `;
 
-const ContactContainer = styled.div`
-    margin-bottom: 0.4em;
+const ContactContainer = styled.address`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-style: normal;
     font-family: "Calibri";
+    margin-bottom: 0.4em;
 `;
 
 const ContactInfo = styled.span`
+    white-space: nowrap;
     margin: 0 0.32em;
 `;
 
@@ -141,13 +173,13 @@ const Details = styled.a`
 const ContactUs = styled.div`
     display: ${props => props.visible ? "block" : "none"};
     position: fixed;
-    top: 12em;
+    top: 22.5%;
     -moz-box-shadow: 0 0 5px 3px #A5A5C7;
     -webkit-box-shadow: 0 0 5px 3px #a5a5c7;
     box-shadow: 0 0 5px 3px #a5a5c7;
-    z-index: 0;
+    z-index: 1;
 
-    @media only screen and (max-width: 480px) {
+    @media only screen and (max-width: 600px) {
         display: none;
     };
 `;

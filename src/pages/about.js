@@ -1,42 +1,43 @@
+import React from 'react';
 import { graphql } from 'gatsby';
 import { GatsbyImage } from "gatsby-plugin-image";
-import React from 'react';
-import styled from 'styled-components';
 import { BLOCKS } from '@contentful/rich-text-types';
 import { renderRichText } from 'gatsby-source-contentful/rich-text';
+import styled from 'styled-components';
+
 import SEO from '../components/SEO';
 
 export const query = graphql`
-  query {
-	about: contentfulLayout(contentful_id: {eq: "75GmgSwW5Awagnegsp7sfF"}) {
-	  mainContent {
-		... on ContentfulImageWithMetadata {
-		  image {
-			gatsbyImageData(placeholder: BLURRED)
-          }
-        }
-        ... on ContentfulParagraphWithTitle {
-		  richParagraph {
-			raw
-          }
-        }
-      }
-      secondaryContent {
-		... on ContentfulTestimonials {
-          testimonials {
-            id
-            author
-            quote {
-              quote
+    query {
+        about: contentfulLayout(contentful_id: {eq: "75GmgSwW5Awagnegsp7sfF"}) {
+            mainContent {
+                ... on ContentfulImageWithMetadata {
+                    image {
+                        gatsbyImageData(placeholder: BLURRED)
+                    }
+                }
+                ... on ContentfulParagraphWithTitle {
+                    richParagraph {
+                        raw
+                    }
+                }
             }
-          }
+            secondaryContent {
+                ... on ContentfulTestimonials {
+                    testimonials {
+                        id
+                        author
+                        quote {
+                            quote
+                        }
+                    }
+                }
+            }
         }
-      }
     }
-  }
 `;
 
-export default function AboutPage({data}) {
+export default function AboutPage({ data }) {
 
     const { gatsbyImageData: aboutPic } = data.about.mainContent[0].image;
     const { richParagraph } = data.about.mainContent[1];
@@ -53,14 +54,10 @@ export default function AboutPage({data}) {
             <SEO title="About Us" description="About us and customer testimonials" />
             <main>
                 <MainContent>
-                    <FlexBox>
-                        <AboutText>
-                            {richParagraph && renderRichText(richParagraph, options)}
-                        </AboutText>
-                        <ImageContainer>
-                            <Image image={aboutPic} alt="" />
-                        </ImageContainer>
-                    </FlexBox>
+                    <ImageContainer>
+                        <Image image={aboutPic} alt="" />
+                    </ImageContainer>
+                    {richParagraph && renderRichText(richParagraph, options)}
                 </MainContent>
                 <SecondaryContent id="testimonials" tabIndex="-1">
                     {testimonials.map(testimonial => 
@@ -82,25 +79,26 @@ const MainContent = styled.div`
     margin: 1.3em auto;
     padding: 0.975em;
     width: 70%;
-    max-width: 940px;
+    max-width: 970px;
+    overflow: auto;
+
+    @media only screen and (max-width: 1000px) {
+        width: 90%;
+        max-width: 730px;
+    };
 
     @media only screen and (max-width: 480px) {
         width: auto;
     };
 `;
 
-const AboutText = styled.div`
-    width: 40%;
-
-    @media only screen and (max-width: 1000px) {
-        width: 100%;
-        text-align: center;
-    };
-`;
-
 const Text = styled.p`
     line-height: 1.4em;
     color: #3a3a87;
+
+    @media only screen and (max-width: 1000px) {
+        text-align: center;
+    };
 
     @media only screen and (max-width: 480px) {
         font-size: 1em;
@@ -109,6 +107,9 @@ const Text = styled.p`
 
 const ImageContainer = styled.div`
     width: 57%;
+    float: right;
+    margin-left: 1.2em;
+    margin-bottom: 0.5em;
 
     @media only screen and (max-width: 1000px) {
         display: none;
@@ -141,7 +142,14 @@ const Quote = styled.div`
     };
 
     @media only screen and (max-width: 480px) {
-        margin-bottom: 2em;
+        border-top: 1px solid white;
+        padding-top: 0.5em;
+        margin-bottom: 1em;
+
+        &:first-child {
+            border: none;
+            padding-top: 0;
+        };
 
         &:last-child {
             margin-bottom: 1em;
@@ -159,15 +167,6 @@ const Cite = styled.cite`
 `;
 
 const TextQuote = styled(Text)`
+    text-align: left;
     font-size: medium;
-`;
-
-const FlexBox = styled.div`
-    display: flex;
-    justify-content: space-between;
-    
-    @media only screen and (max-width: 1000px) {
-        flex-flow: wrap;
-        justify-content: center;
-    };
 `;
