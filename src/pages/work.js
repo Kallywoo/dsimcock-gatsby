@@ -18,8 +18,8 @@ export const query = graphql`
                 ... on ContentfulAreaOfWork {
                     id
                     name
-                    slug
                     order
+                    gatsbyPath(filePath: "/work/{ContentfulAreaOfWork.slug}")
                 }
             }
         }
@@ -43,7 +43,7 @@ export default function WorkPage({ data }) {
                         {areas?.map(area => 
                             <React.Fragment key={`${area.id}`}>
                                 {area.id ? 
-                                    <StyledLink to={`/work/${area.slug}`}>{area.name}</StyledLink> 
+                                    <StyledLink to={area.gatsbyPath}>{area.name}</StyledLink> 
                                 : null}
                             </React.Fragment>
                         )}

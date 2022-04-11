@@ -3,13 +3,15 @@ import { graphql } from 'gatsby';
 import { GatsbyImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
 
-import { Accordion } from '../components/Accordion';
-import { GalleryModal } from '../components/GalleryModal';
-import SEO from '../components/SEO';
+import { Accordion } from '../../components/Accordion';
+import { GalleryModal } from '../../components/GalleryModal';
+import SEO from '../../components/SEO';
 
 export const query = graphql`
-    query($slug: String!) {
-        projectList: contentfulAreaOfWork(slug: { eq: $slug } ) {
+    query ContentfulAreaOfWork ($id: String!) {
+        contentfulAreaOfWork(id: { eq: $id }) {
+            title: name
+            slug
             projects {
                 ... on ContentfulProject {
                     id
@@ -17,7 +19,7 @@ export const query = graphql`
                     images {
                         id
                         gatsbyImageData(placeholder: BLURRED)
-                        background: gatsbyImageData(width: 100, height: 100, placeholder: BLURRED)
+                        background: gatsbyImageData(width: 100, height: 100, placeholder: DOMINANT_COLOR)
                     }
                 }
             }
@@ -25,9 +27,10 @@ export const query = graphql`
     }
 `;
 
-export default function ProjectsPage({ data, pageContext }) {
+export default function ProjectsPage({ data }) {
 
-    const { projects } = data.projectList;
+    const { title } = data.contentfulAreaOfWork;
+    const { projects } = data.contentfulAreaOfWork;
 
     const [masterArray, setMasterArray] = useState([]);
     const [cachedTab, setCachedTab] = useState(null);
@@ -63,7 +66,7 @@ export default function ProjectsPage({ data, pageContext }) {
 
     return (
         <>
-            <SEO title={pageContext.title} description={`${pageContext.title} work examples`} />
+            <SEO title={title} description={`${title} work examples`} />
             <main>
                 <MainContent>
                     <List>
