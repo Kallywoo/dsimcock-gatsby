@@ -58,15 +58,17 @@ const MainContent = styled.div`
     margin: 1.3em auto;
     padding: 0.975em;
     width: 70%;
+    min-width: 730px;
     max-width: 970px;
 
     @media only screen and (max-width: 1000px) {
         width: 90%;
+        min-width: auto;
         max-width: 730px;
     };
 
     @media only screen and (max-width: 480px) {
-        padding: 0;
+        padding: 1em 0em;
         width: auto;
     };
 `;
@@ -94,13 +96,23 @@ const ContactInfo = styled.address`
     };
 
     @media only screen and (max-width: 480px) {
-        display: none;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* border-bottom: 2px solid grey; */
+        /* margin-bottom: 1em; */
     };
 `;
 
 const List = styled.ul`
     padding: 0;
     list-style-type: none;
+
+    @media only screen and (max-width: 480px) {
+        display: flex;
+        flex-wrap: wrap;
+        text-align: center;
+    };
 `;
 
 const ListItem = styled.li`
@@ -109,6 +121,11 @@ const ListItem = styled.li`
     font-size: 1.25em;
     letter-spacing: 0.1em;
     margin-bottom: 0.65em;
+
+    @media only screen and (max-width: 480px) {
+        min-width: 50%;
+        flex-grow: 1;
+    };
 `;
 
 const Text = styled.p`
@@ -118,10 +135,20 @@ const Text = styled.p`
     letter-spacing: 0.1em;
     line-height: 1.1em;
     margin-top: 2em;
+
+    @media only screen and (max-width: 480px) {
+        order: -1;
+        margin-top: 0;
+        border-bottom: 2px solid grey;
+        padding: 1em 0em;
+        margin: 0em 1em;
+        padding-top: 0.5em;
+        margin-bottom: 0.5em;
+    };
 `;
 
 const Details = styled.a`
-    font-family: "Calibri";
+    font-family: "Fira Sans", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
     color: black;
     text-decoration: none;
     transition: 0.3s;
@@ -130,5 +157,9 @@ const Details = styled.a`
 
     &:hover {
         color: #4f34b3;
+    };
+
+    @media only screen and (max-width: 480px) {
+        display: block;
     };
 `;

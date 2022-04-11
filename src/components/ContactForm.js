@@ -145,10 +145,11 @@ const MainText = styled.h2`
     margin-top: 0.25em;
 
     @media only screen and (max-width: 480px) {
-        margin: 0.5em;
+        /* margin: 0.5em;
         margin-bottom: 0;
-        padding-bottom: 0.5em;
-        border-bottom: 2px dashed grey;
+        padding-bottom: 0.25em;
+        border-bottom: 2px dashed grey; */
+        display: none;
     };
 `;
 
@@ -160,12 +161,8 @@ const Fields = styled.fieldset`
 
     @media only screen and (max-width: 1000px) {
         text-align: center;
-        padding: 0.5em;
+        padding: 0.5em 0;
         margin-top: 0;
-    };
-
-    @media only screen and (max-width: 410px) {
-        margin: 1.3em 0;
     };
 `;
 
@@ -182,7 +179,7 @@ const Label = styled.label`
 
     @media only screen and (max-width: 480px) {
         text-align: center;
-        font-size: 1.5em;
+        font-size: 1.25em;
         margin-left: 0;
         margin-right: 0;
     };
@@ -190,10 +187,9 @@ const Label = styled.label`
 
 const Input = styled.input`
     width: 60%;
-    outline: none;
-    padding: 0.25em 0;
-    border: none;
+    padding: 0.25em 0.125em;
     margin-left: 1em;
+    border: none;
 
     &.boop {
         display: none;
@@ -204,7 +200,6 @@ const Input = styled.input`
         margin: 0.5em auto;
         width: 100%;
         font-size: 1.5em;
-        font-family: "Calibri";
     };
 
     @media only screen and (max-width: 480px) {
@@ -218,19 +213,17 @@ const Input = styled.input`
 const TextArea = styled.textarea`
     width: 60%;
     height: 6em;
-    padding: 0.25em 0;
+    padding: 0.25em 0.125em;
     margin-left: 1em;
     vertical-align: top;
-    resize: none;
-    outline: none;
     border: none;
+    resize: none;
 
     @media only screen and (max-width: 1000px) {
         display: block;
         margin: 0.5em auto;
         width: 100%;
         font-size: 1.5em;
-        font-family: "Calibri";
     };
 
     @media only screen and (max-width: 480px) {
@@ -277,6 +270,10 @@ const Button = styled.button`
         margin: 1em auto;
         order: ${props => props.switch ? "1" : "0"};
         font-size: 1.5em;
+    };
+
+    @media only screen and (max-width: 480px) {
+        font-size: 1.25em;
     };
 
     @media only screen and (max-width: 410px) {

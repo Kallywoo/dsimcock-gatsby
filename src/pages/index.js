@@ -68,7 +68,11 @@ export default function HomePage({ data }) {
                     <Carousel type="img" duration="5000" transition="500" />
                 </CarouselContainer>
                 <MainText>
-                    <Welcome>{title}</Welcome>
+                    <Welcome>
+                        {title.split(" ").slice(0, 2).join(" ")}
+                        <br />
+                        {title.split(" ").slice(2).join(" ")}
+                    </Welcome>
                     {richParagraph && renderRichText(richParagraph, options)}
                 </MainText>
                 <SecondaryContainer>
@@ -83,14 +87,13 @@ export default function HomePage({ data }) {
                     </SecondaryText>
                     <SecondaryText collapse aria-hidden="true">
                         <SecondaryImageContainer>
-                            {/* ignores padding etc w/ GatsbyImage, look into how to style it!: */}
                             <GatsbyImage image={items[2].image.gatsbyImageData} alt="" />
                         </SecondaryImageContainer>
                     </SecondaryText>
                 </SecondaryContainer>
             </MainContent>
             <SecondaryContent>
-                <Carousel type="text" duration="6000" transition="500" />
+                <Carousel type="text" duration={6000} transition={500} />
                 <Areas>
                     <TertiaryHeader>{secondaryContent[1].title}</TertiaryHeader>
                     <p>{secondaryContent[1].paragraph.text}</p>
@@ -123,6 +126,7 @@ const MainContent = styled.div`
     margin: 1.3em auto;
     padding: 0.975em;
     width: 70%;
+    min-width: 730px;
     max-width: 970px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -130,6 +134,7 @@ const MainContent = styled.div`
 
     @media only screen and (max-width: 1000px) {
         width: 90%;
+        min-width: auto;
         max-width: 730px;
         grid-template-columns: 1fr;
     };
@@ -156,7 +161,6 @@ const MainText = styled.div`
 const Welcome = styled.h2`
     letter-spacing: 3px;
     margin-top: 0;
-    margin-right: 5px;
     color: #303080;
 
     @media only screen and (max-width: 1000px) {
@@ -204,12 +208,15 @@ const SecondaryText = styled.div`
     margin-top: 1.3em;
     border-top: 2px solid #303080;
     text-align: center;
-    overflow: hidden;
-    height: 12.5em;
 
     &:nth-of-type(2) {
         margin-left: 1.3em;
         margin-right: 1.3em;
+    };
+
+    &:nth-of-type(3) {
+        overflow: hidden;
+        height: 12.5em;
     };
 
     @media only screen and (max-width: 1200px) {

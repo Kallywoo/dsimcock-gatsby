@@ -60,10 +60,12 @@ const MainContent = styled.div`
     padding: 0.975em;
     padding-bottom: 2em;
     width: 70%;
+    min-width: 730px;
     max-width: 970px;
 
     @media only screen and (max-width: 1000px) {
         width: 90%;
+        min-width: auto;
         max-width: 730px;
     };
 
@@ -83,9 +85,9 @@ const Text = styled.p`
     font-size: 1.1em;
     line-height: 1.5em;
 
-    @media only screen and (max-width: 480px) {
+    /* @media only screen and (max-width: 480px) {
         display: none;
-    };
+    }; */
 `;
 
 const StyledLink = styled(Link)`
@@ -111,6 +113,20 @@ const StyledLink = styled(Link)`
     };
 
     @media only screen and (max-width: 480px) {
-        text-decoration: underline;
+        /* text-decoration: underline; */
+        font-size: 3em;
+        border: 3px solid white;
+        border-radius: 10px;
+        text-shadow: none;
+        margin-top: 0.4em;
+        box-shadow: 0px 2px 3px 4px rgba(0,0,0,0.25);
+
+        &:last-of-type {
+            margin-bottom: 0.5em;
+        };
+
+        &:active {
+            box-shadow: none;
+        };
     };
 `;

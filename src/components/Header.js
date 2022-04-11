@@ -48,7 +48,7 @@ export const Header = ({ props }) => {
                         <Logo image={logo} alt="D.Simcock & Son" />
                     </Link>
                 </H1>
-                <Information>
+                <Information mobileVisible={!pathname.includes("/contact") ? true : false}>
                     <ContactContainer>
                         <ContactInfo>Mobile: <Details href={`tel:${mobile.replace(/\s+/g, '')}`}>{mobile}</Details></ContactInfo>
                         <ContactInfo>Tel: <Details href={`tel:${telephone.replace(/\s+/g, '')}`}>{telephone}</Details></ContactInfo>
@@ -68,7 +68,7 @@ export const Header = ({ props }) => {
 };
 
 const SkipLink = styled.a`
-    position: absolute;
+    position: fixed;
     top: -1000%;
 
     &:focus {
@@ -133,6 +133,10 @@ const Logo = styled(GatsbyImage)`
 const Information = styled.div`
     display: inline-block;
     margin: auto;
+
+    @media only screen and (max-width: 480px) {
+        display: ${props => !props.mobileVisible ? "none" : "inline-block"};
+    }
 `;
 
 const Description = styled.h2`
@@ -151,8 +155,11 @@ const ContactContainer = styled.address`
     flex-wrap: wrap;
     justify-content: center;
     font-style: normal;
-    font-family: "Calibri";
     margin-bottom: 0.4em;
+
+    @media only screen and (max-width: 480px) {
+        line-height: 1.4em;
+    };
 `;
 
 const ContactInfo = styled.span`

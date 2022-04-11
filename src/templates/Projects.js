@@ -17,6 +17,7 @@ export const query = graphql`
                     images {
                         id
                         gatsbyImageData(placeholder: BLURRED)
+                        background: gatsbyImageData(width: 100, height: 100, placeholder: BLURRED)
                     }
                 }
             }
