@@ -1,7 +1,10 @@
 name: deploy-app-on-s3
 on:
+  push:
+    branches:
+      - s3-gatsby-deploy
   pull_request:
-    branches: [s3-gatsby-deploy]
+    branches: [dev]
     types: [closed]
 jobs:
   deploy:
