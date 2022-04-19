@@ -1,14 +1,15 @@
 name: deploy-app-on-s3
 on:
   pull_request:
-    branches: [dev]
+    branches: [main]
     types: [closed]
 jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      AWS_S3_BUCKET_NAME: simcockandson
-      AWS_CF_DISTRIBUTION_ID: E1Y9PJFUYVLJNW
+      AWS_S3_BUCKET_NAME: dsimcockandson.com
+      AWS_CF_DISTRIBUTION_ID: E3H4Q7XAXCFWFX
+      AWS_BUCKET_REGION: us-east-1
     strategy:
       matrix:
         node-version: [15.x]
@@ -25,18 +26,17 @@ jobs:
           touch .env
           echo CONTENTFUL_SPACE_ID=${{ secrets.CONTENTFUL_SPACE_ID }} >> .env.production
           echo CONTENTFUL_ACCESS_TOKEN=${{ secrets.CONTENTFUL_ACCESS_TOKEN }} >> .env.production
+          echo TARGET_BUCKET_NAME=${{ env.AWS_S3_BUCKET_NAME }} >> .env.production
+          echo AWS_REGION=${{ env.AWS_BUCKET_REGION }} >> .env.production
       - name: Build Application
         run: yarn build
-      - uses: jakejarvis/s3-sync-action@master
-        name: Upload App to S3 Bucket
-        with:
-          args: --follow-symlinks --delete
+      - name: Deploy Application
+        run: yarn deploy
         env:
-          AWS_S3_BUCKET: ${{ env.AWS_S3_BUCKET_NAME }}
+          DISTRIBUTION: ${{ env.AWS_CF_DISTRIBUTION_ID }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: "eu-west-1"
-          SOURCE_DIR: "public"
       - name: Create CloudFront Cache Invalidation
         uses: chetan/invalidate-cloudfront-action@master
         env:
