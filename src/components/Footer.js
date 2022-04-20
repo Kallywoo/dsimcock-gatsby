@@ -18,8 +18,8 @@ export const Footer = () => {
                 nodes {
                     id
                     name
-                    slug
                     order
+                    gatsbyPath(filePath: "/work/{ContentfulAreaOfWork.slug}")
                 }
             }
         }
@@ -44,7 +44,7 @@ export const Footer = () => {
                     </ListItem>
                     {work.nodes.map(page => 
                         <ListItem key={`${page.id}`}>
-                            <StyledLink to={`/work/${page.slug}`}>{page.name} Examples</StyledLink>
+                            <StyledLink to={page.gatsbyPath}>{page.name} Examples</StyledLink>
                         </ListItem>
                     )}
                     <ListItem>
