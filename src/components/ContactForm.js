@@ -145,11 +145,10 @@ const MainText = styled.h2`
     margin-top: 0.25em;
 
     @media only screen and (max-width: 480px) {
-        /* margin: 0.5em;
-        margin-bottom: 0;
-        padding-bottom: 0.25em;
-        border-bottom: 2px dashed grey; */
-        display: none;
+        width: max-content;
+        margin: 0.25em auto;
+        margin-bottom: 0.5em;
+        border-bottom: 1px solid black;
     };
 `;
 
@@ -163,6 +162,10 @@ const Fields = styled.fieldset`
         text-align: center;
         padding: 0.5em 0;
         margin-top: 0;
+    };
+
+    @media only screen and (max-width: 480px) {
+        padding-top: 0;
     };
 `;
 
@@ -182,6 +185,10 @@ const Label = styled.label`
         font-size: 1.25em;
         margin-left: 0;
         margin-right: 0;
+
+        &:first-child {
+            margin-top: 0;
+        };
     };
 `;
 

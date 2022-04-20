@@ -16,7 +16,7 @@ export const Carousel = ({ type, duration, transition }) => {
                             altTag
                             title
                             image {
-                                gatsbyImageData(placeholder: BLURRED)
+                                gatsbyImageData(width: 626, height: 396, placeholder: BLURRED)
                             }
                         }
                     }
@@ -33,8 +33,8 @@ export const Carousel = ({ type, duration, transition }) => {
         }
     `);
 
-    const { images } = data?.home.mainContent[0];
-    const { testimonials: quotes } = data?.home.secondaryContent[0];
+    const { images } = data?.home?.mainContent[0];
+    const { testimonials: quotes } = data?.home?.secondaryContent[0];
     
     // -------------------------------------------
     
@@ -93,9 +93,9 @@ export const Carousel = ({ type, duration, transition }) => {
             >
                 <Image
                     id="slide-img" 
-                    image={images[index].image.gatsbyImageData} 
-                    title={images[index].title} 
-                    alt={images[index].altTag} 
+                    image={images[index]?.image?.gatsbyImageData} 
+                    title={images[index]?.title} 
+                    alt={images[index]?.altTag} 
                     loading="eager"
                 />
             </ImageContainer>
@@ -106,9 +106,9 @@ export const Carousel = ({ type, duration, transition }) => {
                 <StyledLink to="/about#testimonials">
                     <Blockquote id="slide-text" fade={fadeOut ? true : false}>
                         <Paragraph>
-                            <Span>“ </Span>{quotes[index].snippet}<Span> ”</Span>
+                            <Span>“ </Span>{quotes[index]?.snippet}<Span> ”</Span>
                         </Paragraph> 
-                        <Cite>{quotes[index].author}</Cite>
+                        <Cite>{quotes[index]?.author}</Cite>
                     </Blockquote>
                 </StyledLink>
             </QuoteContainer>

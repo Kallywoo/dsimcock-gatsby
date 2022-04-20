@@ -37,6 +37,7 @@ export const query = graphql`
             }
             secondaryContent {
                 ... on ContentfulParagraphWithTitle {
+                    id
                     title
                     paragraph {
                         text: paragraph
@@ -76,15 +77,12 @@ export default function HomePage({ data }) {
                     {richParagraph && renderRichText(richParagraph, options)}
                 </MainText>
                 <SecondaryContainer>
-                    {/* do these by map instead?: */}
-                    <SecondaryText>
-                        <TertiaryHeader>{items[0].title}</TertiaryHeader>
-                        <p>{items[0].paragraph.text}</p>
-                    </SecondaryText>
-                    <SecondaryText>
-                        <TertiaryHeader>{items[1].title}</TertiaryHeader>
-                        <p>{items[1].paragraph.text}</p>
-                    </SecondaryText>
+                    {items.slice(0, 2).map(item => 
+                        <SecondaryText>
+                            <TertiaryHeader>{item?.title}</TertiaryHeader>
+                            <p>{item?.paragraph?.text}</p>
+                        </SecondaryText>
+                    )}
                     <SecondaryText collapse aria-hidden="true">
                         <SecondaryImageContainer>
                             <GatsbyImage image={items[2].image.gatsbyImageData} alt="" />
@@ -95,10 +93,12 @@ export default function HomePage({ data }) {
             <SecondaryContent>
                 <Carousel type="text" duration={6000} transition={500} />
                 <Areas>
-                    <TertiaryHeader>{secondaryContent[1].title}</TertiaryHeader>
-                    <p>{secondaryContent[1].paragraph.text}</p>
-                    <TertiaryHeader>{secondaryContent[2].title}</TertiaryHeader>
-                    <p>{secondaryContent[2].paragraph.text}</p>
+                    {secondaryContent.slice(1).map(content =>
+                        <React.Fragment key={content?.id}>
+                            <TertiaryHeader>{content?.title}</TertiaryHeader>
+                            <p>{content?.paragraph?.text}</p>
+                        </React.Fragment>
+                    )}
                 </Areas>
             </SecondaryContent>
         </main>

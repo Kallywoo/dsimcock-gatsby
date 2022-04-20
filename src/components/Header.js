@@ -15,7 +15,7 @@ export const Header = ({ props }) => {
             contentfulHeader {
                 logo {
                     image {
-                        gatsbyImageData(placeholder: BLURRED)
+                        gatsbyImageData(placeholder: TRACED_SVG)
                     }
                 }
                 description

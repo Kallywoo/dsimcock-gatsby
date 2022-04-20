@@ -42,7 +42,9 @@ export const MobileNavigation = () => {
 
     return (
         <MobileNav>
-            <Backdrop visible={open} onClick={() => setOpen(false)} />
+            {open &&
+                <Backdrop visible={open} onClick={() => setOpen(false)} />
+            }
             {/* div element's handlers just capture whether children are highlighted, doesn't act like any role */}
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div onBlur={() => onBlurHandler()} onFocus={() => onFocusHandler()}>

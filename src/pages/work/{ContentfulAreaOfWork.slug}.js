@@ -29,8 +29,7 @@ export const query = graphql`
 
 export default function ProjectsPage({ data }) {
 
-    const { title } = data.contentfulAreaOfWork;
-    const { projects } = data.contentfulAreaOfWork;
+    const { title, projects } = data.contentfulAreaOfWork;
 
     const [masterArray, setMasterArray] = useState([]);
     const [cachedTab, setCachedTab] = useState(null);

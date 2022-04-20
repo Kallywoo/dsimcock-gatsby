@@ -99,8 +99,6 @@ const ContactInfo = styled.address`
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        /* border-bottom: 2px solid grey; */
-        /* margin-bottom: 1em; */
     };
 `;
 
@@ -148,7 +146,7 @@ const Text = styled.p`
 `;
 
 const Details = styled.a`
-    font-family: "Fira Sans", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+    font-family: "Calibri", "Fira Sans", -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
     color: black;
     text-decoration: none;
     transition: 0.3s;

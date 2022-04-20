@@ -40,11 +40,9 @@ export default function WorkPage({ data }) {
                 <MainContent>
                     <WorkExamples>
                         <Text>{paragraph}</Text>
-                        {areas?.map(area => 
+                        {areas?.slice(1).map(area =>  
                             <React.Fragment key={`${area.id}`}>
-                                {area.id ? 
-                                    <StyledLink to={area.gatsbyPath}>{area.name}</StyledLink> 
-                                : null}
+                                <StyledLink to={area.gatsbyPath}>{area.name}</StyledLink>
                             </React.Fragment>
                         )}
                     </WorkExamples>
