@@ -17,6 +17,7 @@
   "dependencies": {
     "@contentful/rich-text-types": "^15.1.0",
     "@fontsource/bebas-neue": "^4.5.0",
+    "@fontsource/fira-sans": "^4.5.0",
     "babel-plugin-styled-components": "^2.0.6",
     "esm": "^3.2.25",
     "gatsby": "^4.8.1",

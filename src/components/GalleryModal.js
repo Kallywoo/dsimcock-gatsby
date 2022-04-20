@@ -111,7 +111,10 @@ export const GalleryModal = forwardRef(({ gallery, index, length, cache }, ref) 
                 >
                     <ModalTitle>{gallery[arrayIndex]?.title}</ModalTitle>
                     <ModalImage {...handlers}>
-                        <GatsbyImg image={gallery[arrayIndex]?.gatsbyImageData} alt="" objectFit="contain" />
+                        <ModalImageContainer>
+                            <Background image={gallery[arrayIndex]?.background} alt="" />
+                            <GatsbyImg image={gallery[arrayIndex]?.gatsbyImageData} alt="" objectFit="contain" />
+                        </ModalImageContainer>
                         <ModalButton 
                             ref={moveLeft} 
                             left 
@@ -177,9 +180,12 @@ const ModalContainer = styled.div`
         left: 0;
     };
 
-    @media only screen and (max-width: 414px) {
+    @media only screen and (max-width: 480px) {
+        display: grid;
+        top: 0;
+        height: 100%;
         padding: 0;
-        top: 10%;
+        grid-template-rows: auto 1fr auto;
     };
 `;
 
@@ -189,25 +195,57 @@ const Image = styled.img`
     pointer-events: none;
 `;
 
+const Background = styled(GatsbyImage)`
+    filter: blur(5px);
+    z-index: -1;
+    height: 110%;
+    grid-row: 1;
+    grid-column: 1;
+    opacity: 0.75;
+`;
+
 const GatsbyImg = styled(GatsbyImage)`
     vertical-align: middle;
-    width: 100%;
     pointer-events: none;
-    min-height: 50vh;
+    grid-row: 1;
+    grid-column: 1;
     max-height: 50vh;
+
+    @media only screen and (max-width: 480px) {
+        max-height: none;
+    };
 `;
 
 const ModalTitle = styled.p`
-    font-family: "Calibri";
     margin-top: 0;
 
-    @media only screen and (max-width: 414px) {
-        margin-top: 2em;
+    @media only screen and (max-width: 480px) {
+        margin-bottom: 0;
+        padding: 1em;
+        font-size: 1.5em;
+        font-weight: bold;
+        box-shadow: 0px 0px 10px 5px rgba(0,0,0,0.5);
+        color: #5b5b5b;
     };
 `;
 
 const ModalImage = styled.div`
     position: relative;
+    overflow: hidden;
+
+    @media only screen and (max-width: 480px) {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        grid-template-columns: repeat(2, 1fr);
+    };
+`;
+
+const ModalImageContainer = styled.div`
+    display: grid;
+    align-items: center;
+    grid-column: span 2;
+    z-index: -1;
+    overflow: hidden;
 `;
 
 const ModalButton = styled.button`
@@ -221,6 +259,7 @@ const ModalButton = styled.button`
     height: 100%;
     padding: 0;
     ${props => props.left ? "left: 0%" : "right: 0%"};
+    top: 0;
 
     img {
         opacity: 0;
@@ -232,7 +271,7 @@ const ModalButton = styled.button`
             opacity: 1;
         };
 
-        @media only screen and (max-width: 414px) {
+        @media only screen and (max-width: 480px) {
             position: static;
         };
     };
@@ -241,14 +280,31 @@ const ModalButton = styled.button`
         opacity: 100%;
     };
 
-    @media only screen and (max-width: 414px) {
+    &:focus {
+        outline: none;
+        
+        img {
+            outline: 2px solid black;
+            outline-style: auto;
+        };
+    };
+
+    @media only screen and (max-width: 480px) {
         position: static;
-        width: 50%;
-        height: 100%;
         text-align: ${props => props.left ? "left" : "right"};
-        margin-bottom: 2em;
-        padding: 1em 0em;
         border: 1px solid rgba(0,0,0,0.25);
+        height: 5em;
+        grid-column: ${props => props.left ? "1" : "2"};
+        grid-row: 2;
+        width: 100%;
+
+        &:focus {
+            outline: auto;
+
+            img {
+                outline: none;
+            };
+        };
     };
 `;
 
@@ -256,9 +312,8 @@ const ModalInfo = styled.div`
     display: flex;
     justify-content: space-between;
     margin-top: 0.5em;
-    font-family: "Calibri";
 
-    @media only screen and (max-width: 414px) {
+    @media only screen and (max-width: 480px) {
         margin-top: 0;
         padding: 1em;
     };

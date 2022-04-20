@@ -64,7 +64,14 @@ const StyledFooter = styled.footer`
 const Navigation = styled.nav`
     margin: auto;
     width: 72%;
-    max-width: 940px;
+    min-width: 730px;
+    max-width: 970px;
+
+    @media only screen and (max-width: 1000px) {
+        width: 92%;
+        min-width: auto;
+        max-width: 730px;
+    };
 
     @media only screen and (max-width: 480px) {
         width: 90%;
@@ -81,9 +88,11 @@ const List = styled.ul`
     width: 100%;
 
     @media only screen and (max-width: 480px) {
-        display: block;
+        display: flex;
+        flex-wrap: wrap;
         text-align: center;
         height: auto;
+        gap: 0.5em;
     };
 `;
 
@@ -95,11 +104,12 @@ const ListItem = styled.li`
     };
 
     @media only screen and (max-width: 480px) {
-        margin-top: 0.8em;
         margin-right: 0em;
         border: 1px solid white;
         border-radius: 10px;
         padding: 0.5em 0em;
+        min-width: 48%;
+        flex-grow: 1;
 
         &:active {
             background-color: rgba(255, 255, 255, 0.25);
@@ -108,12 +118,15 @@ const ListItem = styled.li`
         &:nth-child(1n + 6) {
             display: none;
         };
+
+        &:nth-child(5) {
+            grid-column: span 2;
+        };
     };
 `;
 
 const StyledLink = styled(Link)`
     display: block;
-    font-family: "Calibri";
     text-transform: uppercase;
     font-weight: bold;
     text-decoration: none;
@@ -126,6 +139,6 @@ const StyledLink = styled(Link)`
     };
 
     @media only screen and (max-width: 480px) {
-        font-size: 2em;
+        font-size: 1.75em;
     };
 `;

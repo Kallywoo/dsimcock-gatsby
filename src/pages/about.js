@@ -79,11 +79,13 @@ const MainContent = styled.div`
     margin: 1.3em auto;
     padding: 0.975em;
     width: 70%;
+    min-width: 730px;
     max-width: 970px;
     overflow: auto;
 
     @media only screen and (max-width: 1000px) {
         width: 90%;
+        min-width: auto;
         max-width: 730px;
     };
 
