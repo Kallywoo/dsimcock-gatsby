@@ -28,6 +28,10 @@ export default function SEO({ children, location, description, title }) {
             <meta charSet="utf-8" />
             <meta name="keywords" content="builder,builders,doncaster,simcock,d,son,construction,d. simcock,homepage" />
             <meta name="description" content={description ? `${description} | ${site.siteMetadata.description}` : site.siteMetadata.description} />
+            {/* address bar colours */}
+            <meta name="theme-color" content="#303080" /> {/* Chrome, Firefox OS and Opera */}
+            <meta name="msapplication-navbutton-color" content="#303080" /> {/* Windows Phone */}
+            <meta name="apple-mobile-web-app-status-bar-style" content="#303080" /> {/* iOS Safari */}
             {/* open graph */}
             {location && <meta property="og:url" content={location.href} />}
             <meta property="og:image" content={favicon} />
