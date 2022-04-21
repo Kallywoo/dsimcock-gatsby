@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { graphql, useStaticQuery, Link } from 'gatsby';
 import styled, { keyframes } from 'styled-components';
 
-import iconOpen from '../images/mobile_open.png';
-import iconClose from '../images/mobile_close.png';
+import iconOpen from '../images/mobile-nav-open.png';
+import iconClose from '../images/mobile-nav-close.png';
 
 // maybe somehow merge this with Navigation.js?
 
 export const MobileNavigation = () => {
 
     const data = useStaticQuery(graphql`
-      query {
-        allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
-          pages: nodes {
-            id
-            name
-            slug
-            navOrder
-          }
+        query {
+            allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
+                pages: nodes {
+                    id
+                    name
+                    slug
+                    navOrder
+                }
+            }
         }
-      }
     `);
 
     const { pages } = data.allContentfulLayout;
@@ -42,7 +42,9 @@ export const MobileNavigation = () => {
 
     return (
         <MobileNav>
-            <Backdrop visible={open} onClick={() => setOpen(false)} />
+            {open &&
+                <Backdrop visible={open} onClick={() => setOpen(false)} />
+            }
             {/* div element's handlers just capture whether children are highlighted, doesn't act like any role */}
             {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
             <div onBlur={() => onBlurHandler()} onFocus={() => onFocusHandler()}>
@@ -55,18 +57,24 @@ export const MobileNavigation = () => {
                     <NavigationDiv>
                         <nav>
                             <List>
-                                {pages.map(page => (
-                                    <ListItem key={`${page.id}`}>
-                                        <StyledLink to={`/${page.slug ? page.slug : ""}`}>{page.name}</StyledLink>
-                                    </ListItem>
-                                ))}
+                                {pages?.map(page => 
+                                    <li key={`${page.id}`}>
+                                        <StyledLink 
+                                            to={`/${page.slug ? page.slug : ""}`} 
+                                            partiallyActive={page.slug ? true : false} 
+                                            activeStyle={{opacity: "0.5"}}
+                                        >
+                                            {page.name}
+                                        </StyledLink>
+                                    </li>
+                                )}
                             </List>
                         </nav>
                     </NavigationDiv>
                 }
             </div>
         </MobileNav>
-    )
+    );
 };
 
 const MobileNav = styled.div`
@@ -112,11 +120,11 @@ const NavAnimation = keyframes`
 
 const NavigationDiv = styled.div`
     background-color: #303080;
-    border-radius: 0.5em;
-    width: 75%;
+    border-radius: 20px;
+    width: 70%;
     margin: 0.5em;
     margin-left: auto;
-    padding: 0.4em;
+    padding: 0.25em;
     animation-name: ${NavAnimation};
     animation-duration: 0.175s;
     animation-iteration-count: 1;
@@ -130,23 +138,18 @@ const List = styled.ul`
     text-align: center;
 `;
 
-const ListItem = styled.li`
-    display: block;
-    border-bottom: 3px solid white;
-    font-size: 2.5em;
-    padding: 0.2em;
-    margin: 0 0.65em;
-
-    &:last-child {
-        border-bottom: none;
-    };
-`;
-
 const StyledLink = styled(Link)`
+    display: block;
     text-decoration: none;
     opacity: 1;
     transition: 0.3s;
     color: #CCE8FF;
+    font-size: 2.25em;
+    padding: 0.35em 0.2em;
+    margin: 0.5em 0.5em;
+    border: 2px solid white;
+    border-radius: 10px;
+    font-weight: bold;
 
     &:hover {
         opacity: 0.7;

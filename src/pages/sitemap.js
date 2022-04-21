@@ -1,29 +1,30 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import styled from 'styled-components';
+
 import SEO from '../components/SEO';
 
 export const query = graphql`
     query {
         allContentfulLayout(filter: {node_locale: {eq: "en-US"}}) {
-          pages: nodes {
-            id
-            name
-            slug
-            navOrder
-          }
+            pages: nodes {
+                id
+                name
+                slug
+                navOrder
+            }
         }
         allContentfulAreaOfWork(filter: {node_locale: {eq: "en-US"}}) {
-          work: nodes {
-            type: __typename
-            id
-            name
-            slug
-            order
-          }
+            work: nodes {
+                type: __typename
+                id
+                name
+                slug
+                order
+            }
         }
-      }
-    `;
+    }
+`;
 
 export default function SitemapPage({ data }) {
 
@@ -68,7 +69,14 @@ const MainContent = styled.div`
     margin: 1.3em auto;
     padding: 0.975em;
     width: 70%;
-    max-width: 940px;
+    min-width: 730px;
+    max-width: 970px;
+
+    @media only screen and (max-width: 1000px) {
+        width: 90%;
+        min-width: auto;
+        max-width: 730px;
+    };
 
     @media only screen and (max-width: 480px) {
         width: auto;
@@ -76,8 +84,15 @@ const MainContent = styled.div`
 `;
 
 const List = styled.ul`
+    display: flex;
+    flex-direction: column;
     padding: 0;
     list-style-type: none;
+
+    @media only screen and (max-width: 480px) {
+        align-items: center;
+        font-size: 2em;
+    };
 `;
 
 const ListItem = styled.li`

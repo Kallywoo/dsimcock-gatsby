@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import loadingIcon from '../images/loading.gif';
+import loadingIcon from '../images/spinner.svg';
 
 export const ContactForm = () => {
 
@@ -105,12 +105,12 @@ export const ContactForm = () => {
                             value={values.boop}
                             onChange={handleInputChange}
                             className="boop"
-                    />
+                        />
                     </Label>
                     <ButtonContainer>
                         <Button type="reset" onClick={handleReset} disabled={loading} switch>Reset</Button>
                         <Button type="submit" disabled={loading}>
-                            {loading ? <img src={loadingIcon} alt="Submitting"/> : 'Submit'}
+                            {loading ? <img src={loadingIcon} alt="Submitting" /> : 'Submit'}
                         </Button>
                     </ButtonContainer>
                     <div aria-live="polite" role="status">
@@ -139,13 +139,16 @@ const FormContainer = styled.div`
 
 const MainText = styled.h2`
     font-family: 'Bebas Neue', sans-serif;
-    font-size: xx-large;
+    font-size: 3em;
     letter-spacing: 0.1em;
     margin: 0;
-    margin-top: 0.5em;
+    margin-top: 0.25em;
 
     @media only screen and (max-width: 480px) {
-        display: none;
+        width: max-content;
+        margin: 0.25em auto;
+        margin-bottom: 0.5em;
+        border-bottom: 1px solid black;
     };
 `;
 
@@ -157,19 +160,20 @@ const Fields = styled.fieldset`
 
     @media only screen and (max-width: 1000px) {
         text-align: center;
-        padding: 0.5em;
+        padding: 0.5em 0;
+        margin-top: 0;
     };
 
-    @media only screen and (max-width: 410px) {
-        margin: 1.3em 0;
-        padding: 0;
+    @media only screen and (max-width: 480px) {
+        padding-top: 0;
     };
 `;
 
 const Label = styled.label`
     display: block;
     margin-left: auto;
-    margin-bottom: 0.65em;
+    margin-bottom: 0.85em;
+    font-size: 0.9em;
 
     @media only screen and (max-width: 1000px) {
         margin: 1em 0.5em 0.5em 0.5em;
@@ -178,18 +182,21 @@ const Label = styled.label`
 
     @media only screen and (max-width: 480px) {
         text-align: center;
-        font-size: xx-large;
+        font-size: 1.25em;
         margin-left: 0;
         margin-right: 0;
+
+        &:first-child {
+            margin-top: 0;
+        };
     };
 `;
 
 const Input = styled.input`
     width: 60%;
-    outline: none;
-    padding: 0.2em 0;
+    padding: 0.25em 0.125em;
+    margin-left: 1em;
     border: none;
-    margin-left: 0.65em;
 
     &.boop {
         display: none;
@@ -198,32 +205,32 @@ const Input = styled.input`
     @media only screen and (max-width: 1000px) {
         display: block;
         margin: 0.5em auto;
-        width: 85%;
-        font-family: "Calibri";
+        width: 100%;
+        font-size: 1.5em;
     };
 
     @media only screen and (max-width: 480px) {
         width: 95%;
         padding: 0.3em 0.1em;
         font-size: 1em;
+        border-radius: 10px;
     };
 `;
 
 const TextArea = styled.textarea`
-    vertical-align: top;
-    resize: none;
-    height: 6em;
     width: 60%;
-    outline: none;
-    padding: 0.2em 0;
+    height: 6em;
+    padding: 0.25em 0.125em;
+    margin-left: 1em;
+    vertical-align: top;
     border: none;
-    margin-left: 0.65em;
+    resize: none;
 
     @media only screen and (max-width: 1000px) {
         display: block;
         margin: 0.5em auto;
-        width: 85%;
-        font-family: "Calibri";
+        width: 100%;
+        font-size: 1.5em;
     };
 
     @media only screen and (max-width: 480px) {
@@ -256,22 +263,24 @@ const Button = styled.button`
 
     &:disabled {
         ${props => props.type === 'submit' ? 'padding: 0.5em 4em' : ''};
+        cursor: default;
     };
 
     img {
         display: block;
-        opacity: 40%;
         margin: 0 auto;
+        width: 16px;
     };
 
     @media only screen and (max-width: 1000px) {
         width: 95%;
         margin: 1em auto;
         order: ${props => props.switch ? "1" : "0"};
+        font-size: 1.5em;
     };
 
     @media only screen and (max-width: 480px) {
-        font-size: 2em;
+        font-size: 1.25em;
     };
 
     @media only screen and (max-width: 410px) {
