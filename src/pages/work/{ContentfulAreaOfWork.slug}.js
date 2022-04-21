@@ -47,7 +47,6 @@ export default function ProjectsPage({ data }) {
     };
 
     useEffect(() => { // generate array of all images and titles from all projects for modal navigation
-
         let array = [];
         let i = 0;
     
@@ -60,7 +59,6 @@ export default function ProjectsPage({ data }) {
         };
     
         setMasterArray(array);
-
     }, [projects]);
 
     return (
