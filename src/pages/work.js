@@ -82,10 +82,6 @@ const Text = styled.p`
     color: #303080;
     font-size: 1.1em;
     line-height: 1.5em;
-
-    /* @media only screen and (max-width: 480px) {
-        display: none;
-    }; */
 `;
 
 const StyledLink = styled(Link)`
@@ -111,7 +107,6 @@ const StyledLink = styled(Link)`
     };
 
     @media only screen and (max-width: 480px) {
-        /* text-decoration: underline; */
         font-size: 3em;
         border: 3px solid white;
         border-radius: 10px;
